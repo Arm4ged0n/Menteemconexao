@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mente em Conexão</title>
+    <!-- Tailwind CSS -->
+    <script>
+        // Suprime o aviso informativo do Tailwind CDN sobre uso em produção
+        const __originalWarn = console.warn;
+        console.warn = function(...args) {
+            if (typeof args[0] === 'string' && args[0].includes('cdn.tailwindcss.com')) return;
+            __originalWarn.apply(console, args);
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Nunito & Patrick Hand -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-0.5deg); }
+            50% { transform: translateY(-4px) rotate(0.5deg); }
+        }
+        .post-it { animation: float 4.5s ease-in-out infinite; }
+        .post-it:nth-child(even) { animation-delay: 2s; }
+        .transition-all-300 { transition: all 0.3s ease; }
+        .breathe-in { transform: scale(1.45); }
+        .breathe-out { transform: scale(0.85); }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen p-0 sm:p-4 bg-gradient-to-tr from-purple-100 via-indigo-50 to-blue-100">
+
+    <div class="w-full max-w-md h-[100vh] sm:h-[850px] bg-white rounded-none sm:rounded-[40px] shadow-2xl flex flex-col overflow-hidden border-0 sm:border-[8px] border-slate-900 relative">
+
+        <div class="bg-white px-6 pt-3 pb-1 flex justify-between items-center text-xs font-bold text-slate-700 z-10 select-none">
+            <span>9:41</span>
+            <div class="flex items-center space-x-1.5">
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-battery-three-quarters text-sm"></i>
+            </div>
+        </div>
+
+        <div id="toast-notification" class="absolute top-12 left-4 right-4 bg-slate-900/95 backdrop-blur text-white text-xs font-bold p-3.5 rounded-2xl shadow-xl border border-slate-700/50 flex items-center space-x-2.5 z-50 transform scale-95 opacity-0 pointer-events-none transition-all duration-300">
+            <span id="toast-icon">💬</span>
+            <span id="toast-message" class="flex-1">Carregando dados com segurança...</span>
+        </div>
+
+        <div id="app-content" class="flex-1 overflow-y-auto px-5 pb-20 pt-2 bg-gradient-to-b from-white to-indigo-50/10 no-scrollbar">
+
+            <!-- ================= TELA 1: BOAS-VINDAS E LOGIN SEGURO ================= -->
+            <div id="screen-welcome" class="flex flex-col items-center justify-between h-full py-4 text-center">
+                <div class="flex flex-col items-center w-full mt-2">
+                    <div class="w-full max-w-[280px] mx-auto select-none">
+                        <svg viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto">
+                            <path d="M200 40 C108 40 35 110 35 198 C35 234 47 268 70 295 L59 335 L100 323 C128 344 163 356 200 356 C292 356 365 286 365 198 C365 110 292 40 200 40 Z" stroke="#10b981" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M228 112 C184 112 153 144 148 184 C146 198 148 206 142 216 C136 226 126 230 120 238 C114 246 118 256 128 256 C138 256 144 266 140 274 C136 282 134 290 148 298 C156 302 162 312 170 318 C178 324 186 332 198 338 C208 342 222 344 238 344 C254 344 262 348 268 360 L285 360 C284 338 292 322 300 308 C316 278 325 248 325 212 C325 152 292 112 228 112 Z" fill="#6d28d9" />
+                            <path d="M136 222 Q144 227 152 222" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+                            <circle cx="282" cy="94" r="8" fill="#581c87" />
+                            <circle cx="304" cy="114" r="5" fill="#10b981" />
+                            <circle cx="316" cy="144" r="7" fill="#84cc16" />
+                            <g transform="translate(258, 86) rotate(-22)">
+                                <path d="M0 0 C22 -18 38 -9 42 22 C22 18 4 9 0 0 Z" fill="#0ea5e9" />
+                                <path d="M0 0 L26 8" stroke="#ffffff" stroke-width="1.5" />
+                            </g>
+                            <g transform="translate(288, 118) rotate(10)">
+                                <path d="M0 0 C18 -14 32 -7 35 18 C18 14 3 7 0 0 Z" fill="#84cc16" />
+                                <path d="M0 0 L22 6" stroke="#ffffff" stroke-width="1" />
+                            </g>
+                            <path d="M218 152 C200 130 172 148 172 170 C172 192 202 214 218 224 C234 214 264 192 264 170 C264 148 236 130 218 152 Z" fill="#ffffff" />
+                            <path d="M218 159 C204 141 182 154 182 170 C182 186 208 204 218 212 C228 204 254 186 254 170 C254 154 232 141 218 159 Z" fill="#6d28d9" />
+                        </svg>
+                    </div>
+
+                    <div class="text-center -mt-6">
+                        <span class="text-[38px] font-black tracking-tight text-[#1e1b4b]" style="font-family: 'Nunito', sans-serif;">mente</span>
+                        <span class="text-[34px] font-bold text-[#0ea5e9] ml-1" style="font-family: 'Patrick Hand', cursive;">em</span>
+                        <br>
+                        <span class="text-[42px] font-extrabold tracking-tight text-[#6d28d9] flex items-center justify-center -mt-2" style="font-family: 'Nunito', sans-serif;">
+                            conexão <span class="text-4xl ml-1.5 text-[#0ea5e9] transform rotate-12">♥</span>
+                        </span>
+                    </div>
+
+                    <div class="w-10/12 mx-auto flex items-center justify-center my-3">
+                        <div class="h-[1.5px] bg-[#84cc16] flex-1"></div>
+                        <div class="w-2.5 h-2.5 bg-[#84cc16] rounded-full mx-2"></div>
+                        <div class="h-[1.5px] bg-[#84cc16] flex-1"></div>
+                    </div>
+
+                    <div class="flex items-center justify-center space-x-1.5 text-[10px] font-black tracking-widest text-[#1e1b4b] uppercase">
+                        <span>Escuta</span> • <span>Apoio</span> • <span>Respeito</span> • <span>Empatia</span>
+                    </div>
+                    <div class="text-[9px] text-[#6d28d9] font-black tracking-wider mt-1 uppercase">Juntos por uma mente mais forte</div>
+
+                    <h2 class="text-sm font-extrabold text-slate-600 mt-6 px-4 leading-snug">
+                        Um espaço seguro, <br>
+                        <span class="text-[#6d28d9] bg-purple-50 px-3 py-1 rounded-full text-xs inline-block mt-2 border border-purple-100 font-bold">feito de jovem para jovem.</span>
+                    </h2>
+                </div>
+
+                <div class="w-full px-4 space-y-3.5 mt-6">
+                    <button onclick="loginAnonymously()" class="w-full bg-gradient-to-r from-[#0ea5e9] via-[#6d28d9] to-indigo-600 text-white font-black py-4 px-6 rounded-2xl shadow-lg shadow-purple-100 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all-300 flex items-center justify-center space-x-3 text-sm">
+                        <i class="fa-solid fa-user-secret text-lg"></i>
+                        <span>Entrar Anonimamente</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+
+                    <button onclick="openAvatarModal()" class="w-full bg-white border-2 border-purple-100 text-[#6d28d9] hover:border-purple-300 font-bold py-3.5 px-6 rounded-2xl transition-all-300 flex items-center justify-center space-x-3 text-xs">
+                        <i class="fa-solid fa-face-smile text-base text-[#0ea5e9]"></i>
+                        <span>Criar conta com apelido (Avatar)</span>
+                    </button>
+
+                    <div class="flex items-center justify-center space-x-2 text-[10px] text-slate-400 pt-1">
+                        <i class="fa-solid fa-shield-halved text-teal-600"></i>
+                        <span>Sua privacidade é nossa prioridade. Pode confiar!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TELA 2: MENU PRINCIPAL (HOME) ================= -->
+            <div id="screen-home" class="hidden space-y-5 py-3">
+                <div class="flex justify-between items-center bg-white p-3.5 rounded-2xl shadow-sm border border-slate-50">
+                    <div class="flex items-center space-x-3">
+                        <div id="user-avatar-display" class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-2xl shadow-inner">👤</div>
+                        <div>
+                            <div class="text-[11px] text-slate-400 font-bold">Olá, <span id="user-display-name">Amigo</span>! 👋</div>
+                            <h3 class="text-xs font-black text-slate-800 leading-tight">Como você está se sentindo hoje?</h3>
+                        </div>
+                    </div>
+                    <div class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full text-xs font-black flex items-center space-x-1">
+                        <span>⭐</span>
+                        <span id="score-display">130</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-2.5">
+                    <button onclick="selectMood('Feliz', '😀')" class="mood-card bg-amber-50/60 border-2 border-amber-100/50 rounded-2xl p-3 flex flex-col items-center hover:scale-105 active:scale-95 transition-all-300">
+                        <span class="text-3xl mb-1">😀</span>
+                        <span class="text-xs font-extrabold text-amber-900">Feliz</span>
+                    </button>
+                    <button onclick="selectMood('Ansioso', '😰')" class="mood-card bg-teal-50/60 border-2 border-teal-100/50 rounded-2xl p-3 flex flex-col items-center hover:scale-105 active:scale-95 transition-all-300">
+                        <span class="text-3xl mb-1">😰</span>
+                        <span class="text-xs font-extrabold text-teal-900">Ansioso</span>
+                    </button>
+                    <button onclick="selectMood('Triste', '😢')" class="mood-card bg-blue-50/60 border-2 border-blue-100/50 rounded-2xl p-3 flex flex-col items-center hover:scale-105 active:scale-95 transition-all-300">
+                        <span class="text-3xl mb-1">😢</span>
+                        <span class="text-xs font-extrabold text-blue-900">Triste</span>
+                    </button>
+                    <button onclick="selectMood('Estressado', '🤯')" class="mood-card bg-purple-50/60 border-2 border-purple-100/50 rounded-2xl p-3 flex flex-col items-center hover:scale-105 active:scale-95 transition-all-300">
+                        <span class="text-3xl mb-1">🤯</span>
+                        <span class="text-xs font-extrabold text-purple-900">Estressado</span>
+                    </button>
+                </div>
+
+                <div id="home-mood-response" class="hidden p-3.5 bg-indigo-50 border border-indigo-100 rounded-2xl text-xs text-indigo-950 font-bold flex items-center space-x-2.5">
+                    <span id="home-mood-emoji" class="text-xl">🌟</span>
+                    <span id="home-mood-text">Ficamos muito felizes em saber disso!</span>
+                </div>
+
+                <button onclick="openSosModal()" class="w-full bg-gradient-to-r from-red-500 via-rose-500 to-purple-600 text-white p-4 rounded-3xl shadow-lg shadow-rose-100/50 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all-300 flex items-center justify-between text-left">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-11 h-11 bg-white/20 rounded-full flex items-center justify-center text-white text-xl animate-pulse">
+                            <i class="fa-solid fa-life-ring"></i>
+                        </div>
+                        <div>
+                            <div class="font-black text-sm tracking-wide">Preciso de Apoio Agora</div>
+                            <div class="text-[10px] text-rose-100">Fale com um orientador ou consiga ajuda confidencial.</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-base text-white/90"></i>
+                </button>
+
+                <div class="space-y-3.5">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Principais Recursos</span>
+
+                    <div onclick="navigate('explore')" class="bg-white rounded-3xl p-4 shadow-sm border border-slate-50 flex items-start space-x-4 cursor-pointer hover:border-indigo-200 hover:shadow-md transition-all-300">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">📚</div>
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Conteúdos Educativos</h4>
+                            <p class="text-[10px] text-slate-400 mt-0.5 leading-snug">Artigos curtos e vídeos rápidos explicativos sobre ansiedade, bullying e autocuidado.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="navigate('tests')" class="bg-white rounded-3xl p-4 shadow-sm border border-slate-50 flex items-start space-x-4 cursor-pointer hover:border-indigo-200 hover:shadow-md transition-all-300">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">🧠</div>
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Testes de Autoconhecimento</h4>
+                            <p class="text-[10px] text-slate-400 mt-0.5 leading-snug">Faça testes interativos e receba dicas de autocuidado na mesma hora.</p>
+                        </div>
+                    </div>
+
+                    <div onclick="navigate('agenda')" class="bg-white rounded-3xl p-4 shadow-sm border border-slate-50 flex items-start space-x-4 cursor-pointer hover:border-indigo-200 hover:shadow-md transition-all-300">
+                        <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">📅</div>
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Agenda de Oficinas</h4>
+                            <p class="text-[10px] text-slate-400 mt-0.5 leading-snug">Acompanhe as datas das rodas de conversa presenciais organizadas em sua escola.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TELA 3: ÁREA DE TESTES E AUTOCONHECIMENTO ================= -->
+            <div id="screen-tests" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar ao Início</span>
+                    </button>
+                    <h2 class="text-[11px] font-black text-indigo-950 uppercase tracking-widest">Testes e Autoconhecimento</h2>
+                    <div class="bg-amber-100 text-amber-700 px-2.5 py-0.5 rounded-full text-xs font-black">⭐ <span class="score-display-inline">130</span></div>
+                </div>
+
+                <div class="bg-indigo-50/60 rounded-3xl p-4 border border-indigo-100/30 flex items-center space-x-4">
+                    <span class="text-4xl">🧘‍♀️</span>
+                    <div>
+                        <h3 class="font-black text-indigo-950 text-xs">Momento Check-in: <br><span class="text-indigo-600 font-extrabold">Vamos entender sua mente?</span></h3>
+                        <p class="text-[10px] text-slate-500 mt-1">Escolha um dos testes interativos e receba um feedback personalizado na mesma hora.</p>
+                    </div>
+                </div>
+
+                <div id="tests-selection-menu" class="space-y-3">
+                    <button onclick="openTest('stress')" class="w-full bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between hover:border-purple-200 hover:shadow-md transition-all-300 text-left">
+                        <div class="flex items-center space-x-3.5">
+                            <span class="text-2xl">🌡️</span>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-xs">Termômetro do Estresse</h4>
+                                <p class="text-[10px] text-slate-400">Meça o nível das pressões com estudos e provas.</p>
+                            </div>
+                        </div>
+                        <span class="bg-indigo-50 text-indigo-600 font-extrabold text-[10px] px-3 py-1.5 rounded-xl">Iniciar</span>
+                    </button>
+
+                    <button onclick="openTest('esteem')" class="w-full bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-center justify-between hover:border-purple-200 hover:shadow-md transition-all-300 text-left">
+                        <div class="flex items-center space-x-3.5">
+                            <span class="text-2xl">💖</span>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-xs">Como está minha autoestima hoje?</h4>
+                                <p class="text-[10px] text-slate-400">Entenda a forma como se vê e lida consigo mesmo.</p>
+                            </div>
+                        </div>
+                        <span class="bg-purple-50 text-purple-600 font-extrabold text-[10px] px-3 py-1.5 rounded-xl">Iniciar</span>
+                    </button>
+                </div>
+
+                <!-- TERMÔMETRO DO ESTRESSE ATIVO -->
+                <div id="test-stress-flow" class="hidden bg-white rounded-3xl p-5 border border-purple-100/50 shadow-md space-y-4">
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+                        <h4 class="font-extrabold text-slate-800 text-xs flex items-center space-x-2">
+                            <span>🌡️</span> <span>Termômetro do Estresse</span>
+                        </h4>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="closeActiveTest()" class="text-slate-500 hover:text-slate-700 flex items-center space-x-1 text-xs font-bold bg-slate-100 px-2 py-1 rounded-lg">
+                                <i class="fa-solid fa-arrow-left"></i> <span>Voltar</span>
+                            </button>
+                            <button onclick="navigate('home')" class="text-indigo-600 hover:text-indigo-700 flex items-center space-x-1 text-xs font-bold bg-indigo-50 px-2 py-1 rounded-lg">
+                                <i class="fa-solid fa-house"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center py-1">
+                        <p class="text-[11px] text-slate-500 font-bold mb-1">Deslize para definir seu estresse (0 a 10):</p>
+                        <div class="text-4xl font-black text-indigo-600" id="stress-val-display">5</div>
+                        <div class="relative pt-4 px-1">
+                            <input type="range" min="0" max="10" value="5" class="w-full h-2.5 rounded-lg appearance-none cursor-pointer focus:outline-none" style="background: linear-gradient(to right, #10B981, #F59E0B, #EF4444);" id="slider-stress" oninput="updateStressResult(this.value)">
+                            <div class="flex justify-between text-[9px] font-black text-slate-400 mt-2">
+                                <span>0 (Tranquilo)</span>
+                                <span>5 (Moderado)</span>
+                                <span>10 (Estressado)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-slate-700" id="stress-result-label">Estresse Moderado</span>
+                            <span class="text-2xl" id="stress-plant">🌿</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed" id="stress-result-desc">
+                            Algum estresse faz parte do dia a dia da escola. Tente equilibrar com pausas!
+                        </p>
+                        <div class="space-y-1.5 pt-1" id="stress-result-tips"></div>
+                    </div>
+
+                    <button onclick="completeTest('Estresse')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3 rounded-xl text-xs transition-all-300">
+                        Salvar Resultado &amp; Receber +30 pts
+                    </button>
+                </div>
+
+                <!-- AUTOESTIMA ATIVA -->
+                <div id="test-esteem-flow" class="hidden bg-white rounded-3xl p-5 border border-pink-100/50 shadow-md space-y-4">
+                    <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+                        <h4 class="font-extrabold text-slate-800 text-xs flex items-center space-x-2">
+                            <span>💖</span> <span>Como está sua Autoestima?</span>
+                        </h4>
+                        <div class="flex items-center space-x-1.5">
+                            <button onclick="closeActiveTest()" class="text-slate-500 hover:text-slate-700 flex items-center space-x-1 text-xs font-bold bg-slate-100 px-2 py-1 rounded-lg">
+                                <i class="fa-solid fa-arrow-left"></i> <span>Voltar</span>
+                            </button>
+                            <button onclick="navigate('home')" class="text-indigo-600 hover:text-indigo-700 flex items-center space-x-1 text-xs font-bold bg-indigo-50 px-2 py-1 rounded-lg">
+                                <i class="fa-solid fa-house"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center py-1">
+                        <p class="text-[11px] text-slate-500 font-bold mb-1">De 0 a 10, o quão confiante você se sente hoje?</p>
+                        <div class="text-4xl font-black text-pink-600" id="esteem-val-display">7</div>
+                        <div class="relative pt-4 px-1">
+                            <input type="range" min="0" max="10" value="7" class="w-full h-2.5 rounded-lg appearance-none cursor-pointer focus:outline-none" style="background: linear-gradient(to right, #EF4444, #F59E0B, #EC4899);" id="slider-esteem" oninput="updateEsteemResult(this.value)">
+                            <div class="flex justify-between text-[9px] font-black text-slate-400 mt-2">
+                                <span>0 (Inseguro)</span>
+                                <span>5 (Moderado)</span>
+                                <span>10 (Confiante)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-black text-slate-700" id="esteem-result-label">Boa Autoestima!</span>
+                            <span class="text-2xl" id="esteem-avatar">✨</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed" id="esteem-result-desc">
+                            Você compreende seus pontos fortes e lida bem com os desafios escolares.
+                        </p>
+                        <div class="space-y-1.5 pt-1" id="esteem-result-tips"></div>
+                    </div>
+
+                    <button onclick="completeTest('Autoestima')" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-black py-3 rounded-xl text-xs transition-all-300">
+                        Salvar Resultado &amp; Receber +30 pts
+                    </button>
+                </div>
+
+                <div class="bg-gradient-to-r from-purple-100 to-indigo-50 rounded-3xl p-4 border border-purple-200/40 relative">
+                    <div class="absolute -top-3 right-4 bg-purple-600 text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-sm">
+                        DESAFIO DO DIA +20 PTS
+                    </div>
+                    <div class="flex items-start space-x-3.5">
+                        <span class="text-3xl mt-1">📖</span>
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Diário Emocional:</h4>
+                            <p class="text-[11px] text-indigo-950 italic mt-0.5 font-semibold">"O que foi bom no meu dia de hoje?"</p>
+                            <button onclick="openDiaryModal()" class="mt-2.5 bg-purple-600 text-white text-[9px] font-black px-4 py-1.5 rounded-lg hover:bg-purple-700">Escrever agora</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TELA 4: SUA ESCOLA CONECTADA (MURAL) ================= -->
+            <div id="screen-school" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar ao Início</span>
+                    </button>
+                    <h2 class="text-xs font-black text-indigo-950 uppercase tracking-widest">Sua Escola Conectada</h2>
+                    <div class="bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full text-[10px] font-black">🌱 Comunidade</div>
+                </div>
+
+                <div class="bg-gradient-to-r from-teal-50 to-indigo-50 p-4 rounded-3xl border border-indigo-100/30">
+                    <h3 class="font-extrabold text-indigo-950 text-xs">Um espaço feito só para nós!</h3>
+                    <p class="text-[10px] text-slate-500 mt-1">Abaixo está o nosso mural da amizade para dar apoio mútuo aos colegas e a caixa de sugestões anônima.</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center px-1">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Mural da Empatia</span>
+                        <span class="text-[9px] text-indigo-600 font-bold">Conteúdo Moderado 🛡️</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3" id="mural-posts-grid">
+                        <div class="post-it bg-amber-100/90 border border-amber-200 p-3.5 rounded-2xl shadow-sm text-xs flex flex-col justify-between space-y-2">
+                            <p class="text-amber-900 font-bold leading-relaxed">"Não fique nervoso com a prova de Matemática. Estudamos muito e vai dar tudo certo!"</p>
+                            <span class="text-[9px] text-amber-700 font-extrabold text-right">#Anônimo</span>
+                        </div>
+                        <div class="post-it bg-blue-100/90 border border-blue-200 p-3.5 rounded-2xl shadow-sm text-xs flex flex-col justify-between space-y-2">
+                            <p class="text-blue-900 font-bold leading-relaxed">"Você é incrível do seu próprio jeito. Não deixe ninguém apagar seu brilho!"</p>
+                            <span class="text-[9px] text-blue-700 font-extrabold text-right">#UmAmigo</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3.5 rounded-3xl border border-slate-100 shadow-sm space-y-2.5">
+                        <textarea id="mural-input" rows="2" placeholder="Deixe uma frase de carinho ou apoio para motivar a escola..." class="w-full bg-slate-50 border border-slate-200 outline-none rounded-xl p-3 text-xs font-bold text-slate-800 placeholder-slate-400 focus:border-indigo-400"></textarea>
+                        <button onclick="addPostToMural()" class="w-full bg-indigo-600 text-white font-black py-2.5 rounded-xl text-xs hover:bg-indigo-700 transition-all-300 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Afixar Mensagem Anônima (+15 pts)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm space-y-3">
+                    <h3 class="font-extrabold text-slate-800 text-xs flex items-center space-x-2">
+                        <span>📮</span> <span>Sugerir Temas de Oficinas</span>
+                    </h3>
+                    <p class="text-[10px] text-slate-500">Qual assunto você gostaria de debater presencialmente nas próximas atividades de orientação da turma?</p>
+
+                    <div class="space-y-2">
+                        <select id="suggestion-theme-select" onchange="handleThemeSelectChange()" class="w-full bg-slate-50 border border-slate-200 outline-none rounded-xl p-3 text-xs font-bold text-slate-800 focus:border-indigo-400">
+                            <option value="">-- Escolha um assunto de interesse --</option>
+                            <option value="Ansiedade em Apresentações e Provas">Como lidar com a ansiedade antes de provas</option>
+                            <option value="Como lidar com Redes Sociais e Pressão Digital">Autoimagem e pressão nas redes sociais</option>
+                            <option value="Bullying e Respeito às Diferenças na Sala de Aula">Bullying e como evitar no meu grupo</option>
+                            <option value="Outro assunto específico">Outro tema personalizado...</option>
+                        </select>
+
+                        <input type="text" id="suggestion-custom-input" placeholder="Escreva aqui o seu tema..." class="hidden w-full bg-slate-50 border border-slate-200 outline-none rounded-xl p-3 text-xs font-bold text-slate-800 focus:border-indigo-400">
+
+                        <button onclick="submitWorkshopSuggestion()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-black py-2.5 rounded-xl text-xs transition-all-300 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-lightbulb"></i>
+                            <span>Sugerir Tema Anonimamente (+10 pts)</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TELA 5: EXPLORAR CONTEÚDOS ================= -->
+            <div id="screen-explore" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar ao Início</span>
+                    </button>
+                    <h2 class="text-xs font-black text-indigo-950 uppercase tracking-widest">Conteúdos de Apoio</h2>
+                    <span class="text-xl">📚</span>
+                </div>
+
+                <div class="relative">
+                    <input type="text" placeholder="Procurar dicas, ansiedade..." class="w-full bg-slate-100 border-none outline-none rounded-2xl py-3 pl-10 pr-4 text-xs font-bold text-slate-700">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                </div>
+
+                <div class="space-y-3.5">
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <div class="h-28 p-4 flex items-center justify-between bg-purple-400">
+                            <span class="text-4xl">🧘</span>
+                            <span class="bg-white/20 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded">Ansiedade</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Maneiras simples de acalmar a mente</h4>
+                            <p class="text-[10px] text-slate-500 mt-1">Descubra exercícios fáceis de respiração consciente que você pode fazer discretamente.</p>
+                            <button onclick="readArticle('Acalmar a Mente')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <div class="h-28 p-4 flex items-center justify-between bg-teal-400">
+                            <span class="text-4xl">🤝</span>
+                            <span class="bg-white/20 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded">Bullying</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-extrabold text-slate-800 text-xs">O que fazer ao presenciar o bullying</h4>
+                            <p class="text-[10px] text-slate-500 mt-1">Passos práticos e seguros para apoiar um colega sem se colocar em risco.</p>
+                            <button onclick="readArticle('Presenciando Bullying')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                        <div class="h-28 p-4 flex items-center justify-between bg-amber-400">
+                            <span class="text-4xl">🌙</span>
+                            <span class="bg-white/20 text-white text-[9px] font-black uppercase tracking-wider px-2 py-1 rounded">Autocuidado</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Por que dormir bem muda seu humor</h4>
+                            <p class="text-[10px] text-slate-500 mt-1">Dicas simples para uma noite de sono melhor mesmo em época de provas.</p>
+                            <button onclick="readArticle('Sono e Humor')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TELA 6: AGENDA DE OFICINAS ================= -->
+            <div id="screen-agenda" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar ao Início</span>
+                    </button>
+                    <h2 class="text-xs font-black text-indigo-950 uppercase tracking-widest">Oficinas Presenciais</h2>
+                    <span class="text-xl">📅</span>
+                </div>
+
+                <div class="bg-purple-50 p-4 rounded-3xl border border-purple-100 text-purple-950 text-xs leading-relaxed font-bold">
+                    📌 Estas atividades de debate ocorrem na biblioteca escolar de forma acolhedora e descomplicada. Reserve sua vaga!
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-start justify-between">
+                    <div class="flex space-x-3">
+                        <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex flex-col items-center justify-center font-black flex-shrink-0">
+                            <span class="text-[9px]">JUN</span>
+                            <span class="text-base leading-none">24</span>
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-slate-800 text-xs">Pressão nos Estudos e Bem-estar</h4>
+                            <p class="text-[10px] text-slate-400 mt-1">Horário: Quarta-feira, 14h</p>
+                            <p class="text-[10px] text-slate-500"><i class="fa-solid fa-location-dot text-purple-500 mr-1"></i> Biblioteca</p>
+                        </div>
+                    </div>
+                    <button id="btn-agenda-1" onclick="rsvpEvent(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition-all-300">Reservar</button>
+                </div>
+
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex items-start justify-between">
+                    <div class="flex space-x-3">
+                        <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-700 flex flex-col items-center justify-center font-black flex-shrink-0">
+                            <span class="text-[9px]">JUL</span>
+                            <span class="text-base leading-none">02</span>
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-slate-800 text-xs">Redes Sociais e Autoimagem</h4>
+                            <p class="text-[10px] text-slate-400 mt-1">Horário: Quinta-feira, 15h</p>
+                            <p class="text-[10px] text-slate-500"><i class="fa-solid fa-location-dot text-teal-500 mr-1"></i> Sala de Vídeo</p>
+                        </div>
+                    </div>
+                    <button id="btn-agenda-2" onclick="rsvpEvent(2)" class="bg-indigo-600 hover:bg-indigo-700 text-white text-[10px] font-black px-3 py-1.5 rounded-xl transition-all-300">Reservar</button>
+                </div>
+            </div>
+
+            <!-- ================= TELA 7: SEU PERFIL ================= -->
+            <div id="screen-profile" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar ao Início</span>
+                    </button>
+                    <h2 class="text-xs font-black text-indigo-950 uppercase tracking-widest">Seu Perfil</h2>
+                    <span class="text-xl">👤</span>
+                </div>
+
+                <div class="bg-gradient-to-b from-indigo-50 to-purple-50 p-5 rounded-3xl text-center space-y-3 border border-slate-100">
+                    <div id="profile-avatar" class="w-20 h-20 bg-white rounded-full mx-auto flex items-center justify-center text-4xl shadow-md border-2 border-purple-200">👤</div>
+                    <div>
+                        <h3 id="profile-nickname" class="font-black text-slate-800 text-sm">Anônimo</h3>
+                        <p id="profile-grade" class="text-[10px] text-slate-400 font-bold">Estudante Conectado</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-2.5 inline-block shadow-sm">
+                        <span class="text-[9px] font-bold text-slate-500 block uppercase">Pontuação Acumulada</span>
+                        <div class="text-base font-black text-amber-600 flex items-center justify-center space-x-1 mt-0.5">
+                            <span>⭐</span> <span id="profile-points">130</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2.5">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest pl-1">Histórico das Atividades</span>
+
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-50 flex items-center justify-between text-xs text-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-lg">📊</span>
+                            <div>
+                                <p class="font-extrabold">Exames do Termômetro</p>
+                                <p class="text-[10px] text-slate-400" id="hist-stress-date">Sem registros recentes</p>
+                            </div>
+                        </div>
+                        <span class="font-black text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg" id="hist-stress-val">-</span>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-50 flex items-center justify-between text-xs text-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-lg">💖</span>
+                            <div>
+                                <p class="font-extrabold">Exames de Autoestima</p>
+                                <p class="text-[10px] text-slate-400" id="hist-esteem-date">Sem registros recentes</p>
+                            </div>
+                        </div>
+                        <span class="font-black text-pink-600 bg-pink-50 px-2.5 py-1 rounded-lg" id="hist-esteem-val">-</span>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-50 flex items-center justify-between text-xs text-slate-700">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-lg">✍️</span>
+                            <div>
+                                <p class="font-extrabold">Diário Emocional</p>
+                                <p class="text-[10px] text-slate-400">Suas reflexões guardadas de forma segura</p>
+                            </div>
+                        </div>
+                        <span class="font-black text-purple-600 bg-purple-50 px-2.5 py-1 rounded-lg" id="hist-diary-count">0 notas</span>
+                    </div>
+                </div>
+
+                <button onclick="resetApp()" class="w-full border-2 border-rose-100 hover:border-rose-300 text-rose-500 hover:text-rose-600 font-bold py-3 px-6 rounded-2xl transition-all-300 text-xs flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Reiniciar aplicação</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- BARRA DE NAVEGAÇÃO INFERIOR FIXA -->
+        <div id="bottom-navbar" class="hidden absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-100 flex justify-around items-center px-1 z-20 select-none">
+            <button onclick="navigate('home')" class="nav-btn flex flex-col items-center justify-center text-indigo-600 py-1 flex-1 transition-all-300">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[9px] font-black mt-1">Início</span>
+            </button>
+            <button onclick="navigate('school')" class="nav-btn flex flex-col items-center justify-center text-slate-400 py-1 flex-1 transition-all-300">
+                <i class="fa-solid fa-users text-base"></i>
+                <span class="text-[9px] font-black mt-1">Escola</span>
+            </button>
+            <button onclick="navigate('tests')" class="nav-btn flex flex-col items-center justify-center text-slate-400 py-1 flex-1 transition-all-300">
+                <i class="fa-solid fa-brain text-base"></i>
+                <span class="text-[9px] font-black mt-1">Testes</span>
+            </button>
+            <button onclick="navigate('agenda')" class="nav-btn flex flex-col items-center justify-center text-slate-400 py-1 flex-1 transition-all-300">
+                <i class="fa-solid fa-calendar-days text-base"></i>
+                <span class="text-[9px] font-black mt-1">Oficinas</span>
+            </button>
+            <button onclick="navigate('profile')" class="nav-btn flex flex-col items-center justify-center text-slate-400 py-1 flex-1 transition-all-300">
+                <i class="fa-solid fa-user-circle text-base"></i>
+                <span class="text-[9px] font-black mt-1">Perfil</span>
+            </button>
+        </div>
+
+        <!-- ================= MODAL: CRIAR CONTA COM AVATAR ================= -->
+        <div id="modal-avatar" class="hidden absolute inset-0 bg-slate-900/60 z-30 flex items-center justify-center p-4">
+            <div class="bg-white w-full max-w-sm rounded-3xl p-6 space-y-4 shadow-2xl relative">
+                <button onclick="closeAvatarModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <div class="text-center">
+                    <span class="text-3xl">🎨</span>
+                    <h3 class="font-black text-indigo-950 text-xs mt-1">Crie sua identidade</h3>
+                    <p class="text-[11px] text-slate-500">Crie um apelido legal, sem precisar colocar seus dados reais.</p>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-[9px] font-black text-slate-500 uppercase mb-1">Seu apelido divertido</label>
+                        <input type="text" id="avatar-nickname-input" placeholder="Ex: ViajanteEstelar, PandaDinamico" class="w-full bg-slate-50 border border-slate-200 outline-none rounded-xl p-3 text-xs font-bold text-slate-800 focus:border-indigo-400">
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] font-black text-slate-500 uppercase mb-1">Série / Ano</label>
+                        <select id="avatar-grade-select" class="w-full bg-slate-50 border border-slate-200 outline-none rounded-xl p-3 text-xs font-bold text-slate-800 focus:border-indigo-400">
+                            <option value="7º Ano">7º Ano</option>
+                            <option value="8º Ano">8º Ano</option>
+                            <option value="9º Ano">9º Ano</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-[9px] font-black text-slate-500 uppercase mb-2">Escolha seu Avatar</label>
+                        <div class="grid grid-cols-4 gap-2" id="avatar-grid">
+                            <button onclick="selectAvatar('🦁')" class="avatar-opt p-2 border border-slate-200 bg-slate-50 hover:bg-purple-100 rounded-xl text-2xl transition-all-300">🦁</button>
+                            <button onclick="selectAvatar('🦊')" class="avatar-opt p-2 border border-slate-200 bg-slate-50 hover:bg-purple-100 rounded-xl text-2xl transition-all-300">🦊</button>
+                            <button onclick="selectAvatar('🦄')" class="avatar-opt p-2 border border-slate-200 bg-slate-50 hover:bg-purple-100 rounded-xl text-2xl transition-all-300">🦄</button>
+                            <button onclick="selectAvatar('🐼')" class="avatar-opt p-2 border border-slate-200 bg-slate-50 hover:bg-purple-100 rounded-xl text-2xl transition-all-300">🐼</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="saveAvatarProfile()" class="w-full bg-indigo-600 text-white font-black py-3 rounded-xl text-xs hover:bg-indigo-700 transition-all-300">
+                    Acessar Espaço Seguro
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= MODAL: DIÁRIO EMOCIONAL ================= -->
+        <div id="modal-diary" class="hidden absolute inset-0 bg-slate-900/60 z-30 flex items-end sm:items-center justify-center p-0 sm:p-4">
+            <div class="bg-white w-full max-w-sm rounded-t-3xl sm:rounded-3xl p-6 space-y-4 shadow-2xl relative">
+                <button onclick="closeDiaryModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+                <div class="flex items-center space-x-2.5">
+                    <span class="text-2xl">✍️</span>
+                    <div>
+                        <h3 class="font-black text-indigo-950 text-xs">Diário Emocional Particular</h3>
+                        <p class="text-[9px] text-slate-400">Escreva tudo o que quiser. Suas respostas são totalmente confidenciais.</p>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 p-3.5 rounded-2xl border-l-4 border-purple-500 font-bold italic text-purple-950 text-xs">
+                    "O que correu bem no meu dia de hoje?"
+                </div>
+
+                <textarea id="diary-textarea" rows="4" placeholder="Escreva sobre um lanche bom, um momento divertido ou qualquer conquista..." class="w-full bg-slate-50 border border-slate-200 outline-none rounded-xl p-3 text-xs font-bold text-slate-800 placeholder-slate-400 focus:border-purple-400"></textarea>
+
+                <button onclick="saveDiaryEntry()" class="w-full bg-purple-600 text-white font-black py-3 rounded-xl text-xs hover:bg-purple-700 transition-all-300 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Salvar Desabafo &amp; Receber +20 pts</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= MODAL: SOS / APOIO AGORA ================= -->
+        <div id="modal-sos" class="hidden absolute inset-0 bg-slate-900/60 z-30 flex items-center justify-center p-4">
+            <div class="bg-white w-full max-w-sm rounded-3xl p-6 space-y-4 shadow-2xl relative max-h-[85%] overflow-y-auto">
+                <button onclick="closeSosModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+                <div class="text-center space-y-1">
+                    <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-full mx-auto flex items-center justify-center text-xl animate-pulse">
+                        <i class="fa-solid fa-life-ring"></i>
+                    </div>
+                    <h3 class="font-black text-slate-800 text-xs">Você não está sozinho nessa caminhada!</h3>
+                    <p class="text-[10px] text-slate-400">Caso precise conversar ou se acalmar agora, use estes canais:</p>
+                </div>
+
+                <div class="space-y-3">
+                    <a href="tel:188" class="flex items-center justify-between p-3 rounded-2xl border border-slate-100 hover:bg-slate-50 transition-all-300">
+                        <div class="flex items-center space-x-3 text-left">
+                            <span class="text-2xl">📞</span>
+                            <div>
+                                <h4 class="text-[10px] font-black text-slate-800">CVV - Centro de Valorização da Vida</h4>
+                                <p class="text-[9px] text-slate-400">Apoio confidencial e gratuito, 24 horas.</p>
+                            </div>
+                        </div>
+                        <span class="bg-rose-50 text-rose-600 font-extrabold text-[9px] px-2.5 py-1 rounded-lg">Ligar 188</span>
+                    </a>
+
+                    <div class="p-3.5 rounded-2xl border border-purple-100 bg-purple-50/50 space-y-1">
+                        <h4 class="text-[10px] font-black text-purple-950">🏫 Orientação de Apoio na Escola</h4>
+                        <p class="text-[9px] text-slate-600 leading-relaxed">Você pode procurar a sala da coordenação ou do psicólogo escolar durante suas pausas para um papo confidencial e seguro.</p>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50/70 p-4 rounded-2xl text-center space-y-3.5 border border-indigo-100">
+                    <h4 class="font-extrabold text-indigo-950 text-xs">Precisa de pausa? Siga o círculo:</h4>
+                    <div class="flex justify-center items-center">
+                        <div id="breathing-circle" class="w-14 h-14 bg-gradient-to-tr from-purple-500 to-indigo-500 rounded-full flex items-center justify-center text-white text-[9px] font-black shadow-lg transition-all duration-1000 ease-in-out">
+                            Respirar
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-slate-500 font-bold" id="breathing-txt">Sincronize sua inspiração com os batimentos.</p>
+                </div>
+
+                <button onclick="closeSosModal()" class="w-full bg-slate-100 text-slate-700 font-extrabold py-2.5 rounded-xl text-xs hover:bg-slate-200 transition-all-300">
+                    Voltar ao App
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DO APP (somente localStorage, sem backend) -->
+    <script>
+        // ============ ESTADO GLOBAL ============
+        const state = {
+            user: {
+                nickname: 'Amigo',
+                grade: '7º ao 9º Ano',
+                avatar: '👤',
+                score: 130
+            },
+            currentScreen: 'welcome',
+            selectedAvatar: '🦁',
+            history: {
+                stress: null,        // { value, date }
+                esteem: null,        // { value, date }
+                diaryEntries: 0
+            },
+            rsvp: {
+                1: false,
+                2: false
+            }
+        };
+
+        // ============ PERSISTÊNCIA LOCAL ============
+        function loadStateFromLocalStorage() {
+            try {
+                const cachedUser = localStorage.getItem('mente_conexao_user');
+                const cachedHistory = localStorage.getItem('mente_conexao_history');
+                const cachedRsvp = localStorage.getItem('mente_conexao_rsvp');
+
+                if (cachedUser) state.user = JSON.parse(cachedUser);
+                if (cachedHistory) state.history = JSON.parse(cachedHistory);
+                if (cachedRsvp) state.rsvp = JSON.parse(cachedRsvp);
+
+                const cachedMural = localStorage.getItem('mente_conexao_mural');
+                renderMuralPosts(cachedMural ? JSON.parse(cachedMural) : []);
+            } catch (e) {
+                console.error('Erro ao carregar dados locais: ', e);
+                renderMuralPosts([]);
+            }
+
+            updateAllInterfaceValues();
+            syncRsvpButtons();
+        }
+
+        function saveUserData() {
+            localStorage.setItem('mente_conexao_user', JSON.stringify(state.user));
+            localStorage.setItem('mente_conexao_history', JSON.stringify(state.history));
+            localStorage.setItem('mente_conexao_rsvp', JSON.stringify(state.rsvp));
+        }
+
+        function saveMuralPost(post) {
+            const cached = JSON.parse(localStorage.getItem('mente_conexao_mural') || '[]');
+            cached.unshift(post);
+            localStorage.setItem('mente_conexao_mural', JSON.stringify(cached));
+            renderMuralPosts(cached);
+        }
+
+        // ============ NAVEGAÇÃO ============
+        window.navigate = function(screenName) {
+            state.currentScreen = screenName;
+
+            const screens = ['welcome', 'home', 'tests', 'school', 'explore', 'agenda', 'profile'];
+            screens.forEach(s => {
+                const el = document.getElementById(`screen-${s}`);
+                if (el) el.classList.add('hidden');
+            });
+
+            const targetScreen = document.getElementById(`screen-${screenName}`);
+            if (targetScreen) targetScreen.classList.remove('hidden');
+
+            const bottomBar = document.getElementById('bottom-navbar');
+            if (screenName === 'welcome') {
+                bottomBar.classList.add('hidden');
+            } else {
+                bottomBar.classList.remove('hidden');
+            }
+
+            updateBottomNavActiveButton(screenName);
+
+            if (screenName === 'profile') {
+                loadProfileStats();
+            }
+
+            document.getElementById('app-content').scrollTo({ top: 0, behavior: 'instant' });
+        }
+
+        function updateBottomNavActiveButton(screenName) {
+            const buttons = document.querySelectorAll('#bottom-navbar button');
+            const mapScreenToIndex = { 'home': 0, 'school': 1, 'tests': 2, 'agenda': 3, 'profile': 4 };
+
+            buttons.forEach(btn => {
+                btn.classList.remove('text-indigo-600');
+                btn.classList.add('text-slate-400');
+            });
+
+            const index = mapScreenToIndex[screenName];
+            if (index !== undefined && buttons[index]) {
+                buttons[index].classList.remove('text-slate-400');
+                buttons[index].classList.add('text-indigo-600');
+            }
+        }
+
+        // ============ TOAST ============
+        window.triggerToast = function(icon, message) {
+            const toast = document.getElementById('toast-notification');
+            const tIcon = document.getElementById('toast-icon');
+            const tMsg = document.getElementById('toast-message');
+
+            tIcon.innerText = icon;
+            tMsg.innerText = message;
+
+            toast.classList.remove('scale-95', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('scale-100', 'opacity-100');
+
+            clearTimeout(window.__toastTimer);
+            window.__toastTimer = setTimeout(() => {
+                toast.classList.remove('scale-100', 'opacity-100');
+                toast.classList.add('scale-95', 'opacity-0', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // ============ TELA 1: LOGIN ============
+        window.loginAnonymously = async function() {
+            state.user.nickname = 'Estudante Anônimo';
+            state.user.avatar = '👤';
+            state.user.grade = '7º ao 9º Ano';
+            updateAllInterfaceValues();
+            saveUserData();
+            navigate('home');
+            triggerToast('🤝', 'Sua entrada foi validada com total anonimato!');
+        }
+
+        window.openAvatarModal = function() {
+            document.getElementById('modal-avatar').classList.remove('hidden');
+        }
+
+        window.closeAvatarModal = function() {
+            document.getElementById('modal-avatar').classList.add('hidden');
+        }
+
+        window.selectAvatar = function(emoji) {
+            state.selectedAvatar = emoji;
+            const buttons = document.querySelectorAll('#avatar-grid button');
+            buttons.forEach(btn => {
+                if (btn.innerText === emoji) {
+                    btn.classList.add('border-indigo-500', 'bg-indigo-50');
+                } else {
+                    btn.classList.remove('border-indigo-500', 'bg-indigo-50');
+                }
+            });
+        }
+
+        window.saveAvatarProfile = async function() {
+            const nick = document.getElementById('avatar-nickname-input').value.trim();
+            const grade = document.getElementById('avatar-grade-select').value;
+
+            if (!nick) {
+                triggerToast('⚠️', 'Por favor, crie um apelido divertido!');
+                return;
+            }
+
+            state.user.nickname = nick;
+            state.user.grade = grade;
+            state.user.avatar = state.selectedAvatar;
+
+            updateAllInterfaceValues();
+            closeAvatarModal();
+            saveUserData();
+            navigate('home');
+            triggerToast('🚀', `Conta fictícia para "${nick}" criada com sucesso!`);
+        }
+
+        function updateAllInterfaceValues() {
+            document.getElementById('user-display-name').innerText = state.user.nickname;
+            document.getElementById('user-avatar-display').innerText = state.user.avatar;
+            document.getElementById('score-display').innerText = state.user.score;
+            document.querySelectorAll('.score-display-inline').forEach(el => el.innerText = state.user.score);
+        }
+
+        // ============ TELA 2: HUMORES ============
+        window.selectMood = function(mood, emoji) {
+            const moodContainer = document.getElementById('home-mood-response');
+            const moodEmoji = document.getElementById('home-mood-emoji');
+            const moodText = document.getElementById('home-mood-text');
+
+            moodContainer.classList.remove('hidden');
+            moodEmoji.innerText = emoji;
+
+            switch(mood) {
+                case 'Feliz':
+                    moodText.innerText = "Que ótimo! Que tal compartilhar essa boa energia na escola hoje?";
+                    state.user.score += 5;
+                    break;
+                case 'Ansioso':
+                    moodText.innerText = "Tudo bem se sentir assim. Tente respirar fundo com o exercício do botão SOS.";
+                    break;
+                case 'Triste':
+                    moodText.innerText = "Nem todos os dias são fáceis. Vá no seu próprio ritmo.";
+                    break;
+                case 'Estressado':
+                    moodText.innerText = "Que tal dar uma parada rápida e preencher o Termômetro do Estresse?";
+                    break;
+            }
+            updateAllInterfaceValues();
+            saveUserData();
+        }
+
+        // ============ TELA 3: TESTES INTERATIVOS ============
+        window.openTest = function(testKey) {
+            document.getElementById('tests-selection-menu').classList.add('hidden');
+            if (testKey === 'stress') {
+                document.getElementById('test-stress-flow').classList.remove('hidden');
+                document.getElementById('test-esteem-flow').classList.add('hidden');
+                updateStressResult(5);
+            } else if (testKey === 'esteem') {
+                document.getElementById('test-esteem-flow').classList.remove('hidden');
+                document.getElementById('test-stress-flow').classList.add('hidden');
+                updateEsteemResult(7);
+            }
+        }
+
+        window.closeActiveTest = function() {
+            document.getElementById('test-stress-flow').classList.add('hidden');
+            document.getElementById('test-esteem-flow').classList.add('hidden');
+            document.getElementById('tests-selection-menu').classList.remove('hidden');
+        }
+
+        window.updateStressResult = function(value) {
+            value = parseInt(value);
+            document.getElementById('slider-stress').value = value;
+            document.getElementById('stress-val-display').innerText = value;
+
+            const label = document.getElementById('stress-result-label');
+            const plant = document.getElementById('stress-plant');
+            const desc = document.getElementById('stress-result-desc');
+            const tips = document.getElementById('stress-result-tips');
+
+            let tipsList = [];
+
+            if (value <= 3) {
+                label.innerText = 'Estresse Baixo';
+                label.className = 'text-xs font-black text-emerald-700';
+                plant.innerText = '🌳';
+                desc.innerText = 'Você está com a mente tranquila. Continue cuidando do seu equilíbrio assim!';
+                tipsList = ['Mantenha sua rotina de sono.', 'Aproveite para ajudar um colega hoje.'];
+            } else if (value <= 6) {
+                label.innerText = 'Estresse Moderado';
+                label.className = 'text-xs font-black text-amber-700';
+                plant.innerText = '🌿';
+                desc.innerText = 'Algum estresse faz parte do dia a dia da escola. Tente equilibrar com pausas!';
+                tipsList = ['Respire fundo por 1 minuto.', 'Faça uma pausa das redes sociais.', 'Converse com alguém de confiança.'];
+            } else {
+                label.innerText = 'Estresse Alto';
+                label.className = 'text-xs font-black text-rose-700';
+                plant.innerText = '🥀';
+                desc.innerText = 'Parece que hoje as coisas estão pesadas. Mas tudo bem, reconhecer já é o primeiro passo!';
+                tipsList = ['Respire fundo por 1 minuto.', 'Procure um adulto de confiança para conversar.', 'Considere usar o botão SOS se precisar de apoio agora.'];
+            }
+
+            tips.innerHTML = tipsList.map(t => `
+                <div class="flex items-start space-x-2 text-[10px] text-slate-600 font-bold">
+                    <i class="fa-solid fa-check text-emerald-500 mt-0.5"></i>
+                    <span>${t}</span>
+                </div>
+            `).join('');
+        }
+
+        window.updateEsteemResult = function(value) {
+            value = parseInt(value);
+            document.getElementById('slider-esteem').value = value;
+            document.getElementById('esteem-val-display').innerText = value;
+
+            const label = document.getElementById('esteem-result-label');
+            const avatar = document.getElementById('esteem-avatar');
+            const desc = document.getElementById('esteem-result-desc');
+            const tips = document.getElementById('esteem-result-tips');
+
+            let tipsList = [];
+
+            if (value <= 3) {
+                label.innerText = 'Autoestima em construção';
+                label.className = 'text-xs font-black text-rose-700';
+                avatar.innerText = '🌱';
+                desc.innerText = 'Todo mundo tem dias difíceis com a autoimagem. Você não está sozinho nisso.';
+                tipsList = ['Anote 1 coisa que você fez bem hoje.', 'Evite se comparar com redes sociais.', 'Fale com alguém de confiança sobre como se sente.'];
+            } else if (value <= 6) {
+                label.innerText = 'Autoestima Moderada';
+                label.className = 'text-xs font-black text-amber-700';
+                avatar.innerText = '🌼';
+                desc.innerText = 'Você reconhece seu valor, mas ainda tem dias de insegurança. Isso é normal.';
+                tipsList = ['Liste 3 qualidades suas.', 'Celebre pequenas conquistas do dia.'];
+            } else {
+                label.innerText = 'Boa Autoestima!';
+                label.className = 'text-xs font-black text-emerald-700';
+                avatar.innerText = '✨';
+                desc.innerText = 'Você compreende seus pontos fortes e lida bem com os desafios escolares.';
+                tipsList = ['Continue assim e ajude um colega a se sentir bem também.'];
+            }
+
+            tips.innerHTML = tipsList.map(t => `
+                <div class="flex items-start space-x-2 text-[10px] text-slate-600 font-bold">
+                    <i class="fa-solid fa-check text-emerald-500 mt-0.5"></i>
+                    <span>${t}</span>
+                </div>
+            `).join('');
+        }
+
+        window.completeTest = async function(testType) {
+            state.user.score += 30;
+
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('pt-BR');
+
+            if (testType === 'Estresse') {
+                const val = document.getElementById('slider-stress').value;
+                state.history.stress = { value: val, date: dateStr };
+            } else if (testType === 'Autoestima') {
+                const val = document.getElementById('slider-esteem').value;
+                state.history.esteem = { value: val, date: dateStr };
+            }
+
+            updateAllInterfaceValues();
+            saveUserData();
+            closeActiveTest();
+            triggerToast('⭐', `Resultado de ${testType} salvo! +30 pontos.`);
+        }
+
+        // ============ DIÁRIO EMOCIONAL ============
+        window.openDiaryModal = function() {
+            document.getElementById('modal-diary').classList.remove('hidden');
+        }
+
+        window.closeDiaryModal = function() {
+            document.getElementById('modal-diary').classList.add('hidden');
+        }
+
+        window.saveDiaryEntry = async function() {
+            const textarea = document.getElementById('diary-textarea');
+            const text = textarea.value.trim();
+
+            if (!text) {
+                triggerToast('⚠️', 'Escreva algo antes de salvar.');
+                return;
+            }
+
+            state.history.diaryEntries = (state.history.diaryEntries || 0) + 1;
+            state.user.score += 20;
+
+            updateAllInterfaceValues();
+            saveUserData();
+
+            textarea.value = '';
+            closeDiaryModal();
+            triggerToast('📖', 'Desabafo salvo com segurança! +20 pontos.');
+        }
+
+        // ============ SOS / RESPIRAÇÃO ============
+        let breathingInterval = null;
+
+        window.openSosModal = function() {
+            document.getElementById('modal-sos').classList.remove('hidden');
+            startBreathingAnimation();
+        }
+
+        window.closeSosModal = function() {
+            document.getElementById('modal-sos').classList.add('hidden');
+            stopBreathingAnimation();
+        }
+
+        function startBreathingAnimation() {
+            const circle = document.getElementById('breathing-circle');
+            const txt = document.getElementById('breathing-txt');
+            let phase = 0;
+
+            stopBreathingAnimation();
+
+            const cycle = () => {
+                if (phase % 2 === 0) {
+                    circle.classList.add('breathe-in');
+                    circle.classList.remove('breathe-out');
+                    circle.innerText = 'Inspire';
+                    txt.innerText = 'Inspire lentamente pelo nariz...';
+                } else {
+                    circle.classList.add('breathe-out');
+                    circle.classList.remove('breathe-in');
+                    circle.innerText = 'Expire';
+                    txt.innerText = 'Solte o ar devagar pela boca...';
+                }
+                phase++;
+            };
+
+            cycle();
+            breathingInterval = setInterval(cycle, 4000);
+        }
+
+        function stopBreathingAnimation() {
+            if (breathingInterval) {
+                clearInterval(breathingInterval);
+                breathingInterval = null;
+            }
+            const circle = document.getElementById('breathing-circle');
+            if (circle) {
+                circle.classList.remove('breathe-in', 'breathe-out');
+                circle.innerText = 'Respirar';
+            }
+        }
+
+        // ============ MURAL DA EMPATIA ============
+        function renderMuralPosts(posts) {
+            const grid = document.getElementById('mural-posts-grid');
+            const colors = ['amber', 'blue', 'purple', 'teal', 'rose'];
+
+            const customPosts = posts.map((p, i) => {
+                const c = colors[i % colors.length];
+                return `
+                    <div class="post-it bg-${c}-100/90 border border-${c}-200 p-3.5 rounded-2xl shadow-sm text-xs flex flex-col justify-between space-y-2">
+                        <p class="text-${c}-900 font-bold leading-relaxed">"${escapeHtml(p.text)}"</p>
+                        <span class="text-[9px] text-${c}-700 font-extrabold text-right">#${escapeHtml(p.tag || 'Anônimo')}</span>
+                    </div>
+                `;
+            }).join('');
+
+            const defaultPosts = `
+                <div class="post-it bg-amber-100/90 border border-amber-200 p-3.5 rounded-2xl shadow-sm text-xs flex flex-col justify-between space-y-2">
+                    <p class="text-amber-900 font-bold leading-relaxed">"Não fique nervoso com a prova de Matemática. Estudamos muito e vai dar tudo certo!"</p>
+                    <span class="text-[9px] text-amber-700 font-extrabold text-right">#Anônimo</span>
+                </div>
+                <div class="post-it bg-blue-100/90 border border-blue-200 p-3.5 rounded-2xl shadow-sm text-xs flex flex-col justify-between space-y-2">
+                    <p class="text-blue-900 font-bold leading-relaxed">"Você é incrível do seu próprio jeito. Não deixe ninguém apagar seu brilho!"</p>
+                    <span class="text-[9px] text-blue-700 font-extrabold text-right">#UmAmigo</span>
+                </div>
+            `;
+
+            grid.innerHTML = customPosts + defaultPosts;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.innerText = str;
+            return div.innerHTML;
+        }
+
+        window.addPostToMural = async function() {
+            const input = document.getElementById('mural-input');
+            const text = input.value.trim();
+
+            if (!text) {
+                triggerToast('⚠️', 'Escreva uma mensagem antes de afixar.');
+                return;
+            }
+
+            const post = {
+                text: text,
+                tag: 'Anônimo',
+                timestamp: Date.now()
+            };
+
+            saveMuralPost(post);
+
+            state.user.score += 15;
+            updateAllInterfaceValues();
+            saveUserData();
+
+            input.value = '';
+            triggerToast('💜', 'Mensagem afixada no mural! +15 pontos.');
+        }
+
+        // ============ SUGESTÃO DE OFICINAS ============
+        window.handleThemeSelectChange = function() {
+            const select = document.getElementById('suggestion-theme-select');
+            const customInput = document.getElementById('suggestion-custom-input');
+
+            if (select.value === 'Outro assunto específico') {
+                customInput.classList.remove('hidden');
+            } else {
+                customInput.classList.add('hidden');
+            }
+        }
+
+        window.submitWorkshopSuggestion = async function() {
+            const select = document.getElementById('suggestion-theme-select');
+            const customInput = document.getElementById('suggestion-custom-input');
+
+            let theme = select.value;
+            if (theme === 'Outro assunto específico') {
+                theme = customInput.value.trim();
+            }
+
+            if (!theme) {
+                triggerToast('⚠️', 'Escolha ou escreva um tema antes de enviar.');
+                return;
+            }
+
+            state.user.score += 10;
+            updateAllInterfaceValues();
+            saveUserData();
+
+            select.value = '';
+            customInput.value = '';
+            customInput.classList.add('hidden');
+
+            triggerToast('💡', 'Tema sugerido anonimamente! +10 pontos.');
+        }
+
+        // ============ EXPLORAR CONTEÚDOS ============
+        window.readArticle = function(title) {
+            triggerToast('📖', `Abrindo: "${title}"...`);
+        }
+
+        // ============ AGENDA / RSVP ============
+        function syncRsvpButtons() {
+            [1, 2].forEach(id => {
+                const btn = document.getElementById(`btn-agenda-${id}`);
+                if (!btn) return;
+                if (state.rsvp[id]) {
+                    btn.innerText = 'Reservado ✓';
+                    btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                } else {
+                    btn.innerText = 'Reservar';
+                    btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                    btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                }
+            });
+        }
+
+        window.rsvpEvent = async function(eventId) {
+            if (state.rsvp[eventId]) {
+                triggerToast('✅', 'Você já reservou sua vaga nesta oficina!');
+                return;
+            }
+            state.rsvp[eventId] = true;
+            syncRsvpButtons();
+            saveUserData();
+            triggerToast('📅', 'Vaga reservada com sucesso!');
+        }
+
+        // ============ PERFIL ============
+        function loadProfileStats() {
+            document.getElementById('profile-avatar').innerText = state.user.avatar;
+            document.getElementById('profile-nickname').innerText = state.user.nickname;
+            document.getElementById('profile-grade').innerText = state.user.grade || 'Estudante Conectado';
+            document.getElementById('profile-points').innerText = state.user.score;
+
+            const stressHist = document.getElementById('hist-stress-val');
+            const stressDate = document.getElementById('hist-stress-date');
+            if (state.history.stress) {
+                stressHist.innerText = state.history.stress.value;
+                stressDate.innerText = `Último registro: ${state.history.stress.date}`;
+            } else {
+                stressHist.innerText = '-';
+                stressDate.innerText = 'Sem registros recentes';
+            }
+
+            const esteemHist = document.getElementById('hist-esteem-val');
+            const esteemDate = document.getElementById('hist-esteem-date');
+            if (state.history.esteem) {
+                esteemHist.innerText = state.history.esteem.value;
+                esteemDate.innerText = `Último registro: ${state.history.esteem.date}`;
+            } else {
+                esteemHist.innerText = '-';
+                esteemDate.innerText = 'Sem registros recentes';
+            }
+
+            document.getElementById('hist-diary-count').innerText = `${state.history.diaryEntries || 0} notas`;
+        }
+
+        window.resetApp = function() {
+            if (!confirm('Tem certeza que deseja reiniciar a aplicação? Isso vai apagar seu progresso local.')) return;
+
+            localStorage.removeItem('mente_conexao_user');
+            localStorage.removeItem('mente_conexao_history');
+            localStorage.removeItem('mente_conexao_rsvp');
+            localStorage.removeItem('mente_conexao_mural');
+
+            state.user = { nickname: 'Amigo', grade: '7º ao 9º Ano', avatar: '👤', score: 130 };
+            state.history = { stress: null, esteem: null, diaryEntries: 0 };
+            state.rsvp = { 1: false, 2: false };
+
+            updateAllInterfaceValues();
+            syncRsvpButtons();
+            navigate('welcome');
+            triggerToast('🔄', 'Aplicação reiniciada!');
+        }
+
+        // ============ INICIALIZAÇÃO ============
+        loadStateFromLocalStorage();
+        navigate('welcome');
+
+    </script>
+</body>
+</html>
