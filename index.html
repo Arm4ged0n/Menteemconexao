@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Nunito & Patrick Hand -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <!-- jsPDF para geração de relatório em PDF, direto no navegador -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -595,6 +597,11 @@
                     </div>
                 </div>
 
+                <button onclick="openReportModal()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black py-3.5 px-6 rounded-2xl shadow-lg shadow-emerald-100/50 hover:shadow-xl transition-all-300 flex items-center justify-center space-x-2 text-xs">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Enviar Relatório por E-mail</span>
+                </button>
+
                 <button onclick="resetApp()" class="w-full border-2 border-rose-100 hover:border-rose-300 text-rose-500 hover:text-rose-600 font-bold py-3 px-6 rounded-2xl transition-all-300 text-xs flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span>Reiniciar aplicação</span>
@@ -627,9 +634,15 @@
                     <span class="text-4xl">🗒️</span>
                     <p class="text-xs text-slate-400 font-bold">Nenhum registro ainda.<br>Suas respostas vão aparecer aqui assim que você completar uma atividade.</p>
                 </div>
+
+                <button onclick="openReportModal()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black py-3.5 px-6 rounded-2xl shadow-lg shadow-emerald-100/50 hover:shadow-xl transition-all-300 flex items-center justify-center space-x-2 text-xs">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <span>Enviar Relatório Completo por E-mail</span>
+                </button>
             </div>
 
         </div>
+
 
         <!-- BARRA DE NAVEGAÇÃO INFERIOR FIXA -->
         <div id="bottom-navbar" class="hidden absolute bottom-0 left-0 right-0 h-16 bg-white border-t border-slate-100 flex justify-around items-center px-1 z-20 select-none">
@@ -767,6 +780,47 @@
 
                 <button onclick="closeSosModal()" class="w-full bg-slate-100 text-slate-700 font-extrabold py-2.5 rounded-xl text-xs hover:bg-slate-200 transition-all-300">
                     Voltar ao App
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= MODAL: ENVIAR RELATÓRIO POR E-MAIL ================= -->
+        <div id="modal-report" class="hidden absolute inset-0 bg-slate-900/60 z-30 flex items-end sm:items-center justify-center p-0 sm:p-4">
+            <div class="bg-white w-full max-w-sm rounded-t-3xl sm:rounded-3xl p-6 space-y-4 shadow-2xl relative">
+                <button onclick="closeReportModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+
+                <div class="text-center space-y-1">
+                    <span class="text-3xl">📄</span>
+                    <h3 class="font-black text-indigo-950 text-xs">Enviar Relatório Completo</h3>
+                    <p class="text-[10px] text-slate-500">Vamos gerar um PDF com seu histórico e preparar um e-mail para envio.</p>
+                </div>
+
+                <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-100 space-y-2">
+                    <p class="text-[10px] font-black text-emerald-900 uppercase">Como funciona:</p>
+                    <div class="space-y-1.5">
+                        <div class="flex items-start space-x-2">
+                            <span class="text-[10px] font-black text-emerald-700 bg-emerald-100 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">1</span>
+                            <p class="text-[10px] text-slate-600 font-semibold">O PDF do relatório será baixado no seu celular.</p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <span class="text-[10px] font-black text-emerald-700 bg-emerald-100 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">2</span>
+                            <p class="text-[10px] text-slate-600 font-semibold">Seu app de e-mail abrirá com tudo pronto.</p>
+                        </div>
+                        <div class="flex items-start space-x-2">
+                            <span class="text-[10px] font-black text-emerald-700 bg-emerald-100 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">3</span>
+                            <p class="text-[10px] text-slate-600 font-semibold">Anexe o PDF baixado (toque no clipe 📎) e envie.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <p class="text-[9px] font-black text-slate-400 uppercase">Destinatário</p>
+                    <p class="text-xs font-bold text-slate-700">emilysofiadeoliveira0@gmail.com</p>
+                </div>
+
+                <button onclick="generateAndSendReport()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-black py-3 rounded-xl text-xs hover:shadow-lg transition-all-300 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Gerar PDF e Abrir E-mail</span>
                 </button>
             </div>
         </div>
@@ -1461,13 +1515,145 @@
             localStorage.removeItem('mente_conexao_mural');
 
             state.user = { nickname: 'Amigo', grade: '7º ao 9º Ano', avatar: '👤', score: 130 };
-            state.history = { stress: null, esteem: null, diaryEntries: 0 };
+            state.history = { stress: [], esteem: [], diary: [] };
             state.rsvp = { 1: false, 2: false };
 
             updateAllInterfaceValues();
             syncRsvpButtons();
             navigate('welcome');
             triggerToast('🔄', 'Aplicação reiniciada!');
+        }
+
+        // ============ RELATÓRIO EM PDF + ENVIO POR E-MAIL ============
+        const REPORT_RECIPIENT_EMAIL = 'emilysofiadeoliveira0@gmail.com';
+
+        window.openReportModal = function() {
+            document.getElementById('modal-report').classList.remove('hidden');
+        }
+
+        window.closeReportModal = function() {
+            document.getElementById('modal-report').classList.add('hidden');
+        }
+
+        window.generateAndSendReport = function() {
+            if (typeof window.jspdf === 'undefined') {
+                triggerToast('⚠️', 'Não foi possível carregar o gerador de PDF. Verifique sua internet.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const marginLeft = 15;
+            const marginRight = 15;
+            const usableWidth = pageWidth - marginLeft - marginRight;
+            let y = 20;
+
+            function addLine(text, size, weight, color, spacing) {
+                doc.setFontSize(size);
+                doc.setFont('helvetica', weight || 'normal');
+                doc.setTextColor(color || '#1e1b4b');
+                const lines = doc.splitTextToSize(text, usableWidth);
+                doc.text(lines, marginLeft, y);
+                y += (lines.length * (size * 0.42)) + (spacing || 4);
+                checkPageBreak();
+            }
+
+            function checkPageBreak() {
+                if (y > 275) {
+                    doc.addPage();
+                    y = 20;
+                }
+            }
+
+            // Cabeçalho
+            addLine('Mente em Conexão', 18, 'bold', '#6d28d9', 2);
+            addLine('Relatório de Acompanhamento Socioemocional', 11, 'normal', '#64748b', 8);
+
+            const now = new Date();
+            addLine(`Gerado em: ${now.toLocaleDateString('pt-BR')} às ${now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`, 9, 'normal', '#94a3b8', 8);
+
+            // Dados do estudante
+            addLine('Dados do Estudante', 13, 'bold', '#1e1b4b', 3);
+            addLine(`Apelido: ${state.user.nickname}`, 10, 'normal', '#334155', 2);
+            addLine(`Série/Ano: ${state.user.grade || 'Não informado'}`, 10, 'normal', '#334155', 2);
+            addLine(`Pontuação acumulada: ${state.user.score} pontos`, 10, 'normal', '#334155', 8);
+
+            // Histórico de Estresse
+            const stressEntries = [...(state.history.stress || [])].reverse();
+            addLine(`Histórico do Termômetro do Estresse (${stressEntries.length} registro(s))`, 12, 'bold', '#6d28d9', 3);
+            if (stressEntries.length === 0) {
+                addLine('Nenhum registro até o momento.', 9, 'italic', '#94a3b8', 6);
+            } else {
+                stressEntries.forEach(e => {
+                    addLine(`• ${e.date}${e.time ? ' às ' + e.time : ''} — Nível: ${e.value}/10`, 9, 'normal', '#334155', 2);
+                });
+                y += 4;
+            }
+            checkPageBreak();
+
+            // Histórico de Autoestima
+            const esteemEntries = [...(state.history.esteem || [])].reverse();
+            addLine(`Histórico de Autoestima (${esteemEntries.length} registro(s))`, 12, 'bold', '#be185d', 3);
+            if (esteemEntries.length === 0) {
+                addLine('Nenhum registro até o momento.', 9, 'italic', '#94a3b8', 6);
+            } else {
+                esteemEntries.forEach(e => {
+                    addLine(`• ${e.date}${e.time ? ' às ' + e.time : ''} — Nível: ${e.value}/10`, 9, 'normal', '#334155', 2);
+                });
+                y += 4;
+            }
+            checkPageBreak();
+
+            // Diário Emocional
+            const diaryEntries = [...(state.history.diary || [])].reverse();
+            addLine(`Diário Emocional (${diaryEntries.length} nota(s))`, 12, 'bold', '#7e22ce', 3);
+            if (diaryEntries.length === 0) {
+                addLine('Nenhuma nota até o momento.', 9, 'italic', '#94a3b8', 6);
+            } else {
+                diaryEntries.forEach(e => {
+                    addLine(`${e.date}${e.time ? ' às ' + e.time : ''}:`, 9, 'bold', '#475569', 1);
+                    addLine(`"${e.text}"`, 9, 'italic', '#334155', 5);
+                });
+            }
+
+            // Rodapé
+            y += 6;
+            checkPageBreak();
+            addLine('Este relatório foi gerado automaticamente pelo aplicativo Mente em Conexão e contém informações pessoais do estudante. Trate com confidencialidade.', 8, 'normal', '#94a3b8', 2);
+
+            // Nome do arquivo
+            const safeName = (state.user.nickname || 'estudante').replace(/[^a-zA-Z0-9]/g, '_');
+            const fileName = `relatorio-mente-conexao-${safeName}-${now.toISOString().slice(0, 10)}.pdf`;
+
+            doc.save(fileName);
+
+            // Prepara e abre o e-mail com o resumo no corpo (anexo precisa ser feito manualmente pelo usuário)
+            const subject = encodeURIComponent(`Relatório Mente em Conexão - ${state.user.nickname}`);
+            const bodyLines = [
+                `Olá,`,
+                ``,
+                `Segue o relatório de acompanhamento socioemocional de ${state.user.nickname} (${state.user.grade || 'série não informada'}).`,
+                ``,
+                `Resumo:`,
+                `- Registros de estresse: ${stressEntries.length}`,
+                `- Registros de autoestima: ${esteemEntries.length}`,
+                `- Notas no diário emocional: ${diaryEntries.length}`,
+                `- Pontuação acumulada: ${state.user.score} pontos`,
+                ``,
+                `IMPORTANTE: o PDF completo foi baixado neste dispositivo (arquivo "${fileName}"). Por favor, anexe esse arquivo antes de enviar este e-mail.`,
+                ``,
+                `Atenciosamente,`,
+                `App Mente em Conexão`
+            ];
+            const body = encodeURIComponent(bodyLines.join('\n'));
+
+            closeReportModal();
+            triggerToast('📄', 'PDF baixado! Agora anexe o arquivo no e-mail que vai abrir.');
+
+            setTimeout(() => {
+                window.location.href = `mailto:${REPORT_RECIPIENT_EMAIL}?subject=${subject}&body=${body}`;
+            }, 800);
         }
 
         // ============ INICIALIZAÇÃO ============
