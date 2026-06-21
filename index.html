@@ -199,6 +199,14 @@
                         </div>
                     </div>
 
+                    <div onclick="navigate('games')" class="bg-white rounded-3xl p-4 shadow-sm border border-slate-50 flex items-start space-x-4 cursor-pointer hover:border-orange-200 hover:shadow-md transition-all-300">
+                        <div class="w-12 h-12 bg-orange-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">🎮</div>
+                        <div class="flex-1">
+                            <h4 class="font-extrabold text-slate-800 text-xs">Jogos Interativos</h4>
+                            <p class="text-[10px] text-slate-400 mt-0.5 leading-snug">Viva situações reais, escolha como agir e veja o resultado da sua escolha.</p>
+                        </div>
+                    </div>
+
                     <div onclick="navigate('agenda')" class="bg-white rounded-3xl p-4 shadow-sm border border-slate-50 flex items-start space-x-4 cursor-pointer hover:border-indigo-200 hover:shadow-md transition-all-300">
                         <div class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0">📅</div>
                         <div class="flex-1">
@@ -449,7 +457,7 @@
                         <div class="p-3">
                             <h4 class="font-extrabold text-slate-800 text-xs">Maneiras simples de acalmar a mente</h4>
                             <p class="text-[10px] text-slate-500 mt-1">Descubra exercícios fáceis de respiração consciente que você pode fazer discretamente.</p>
-                            <button onclick="readArticle('Acalmar a Mente')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
+                            <button onclick="readArticle('acalmar')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
                         </div>
                     </div>
 
@@ -461,7 +469,7 @@
                         <div class="p-3">
                             <h4 class="font-extrabold text-slate-800 text-xs">O que fazer ao presenciar o bullying</h4>
                             <p class="text-[10px] text-slate-500 mt-1">Passos práticos e seguros para apoiar um colega sem se colocar em risco.</p>
-                            <button onclick="readArticle('Presenciando Bullying')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
+                            <button onclick="readArticle('bullying')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
                         </div>
                     </div>
 
@@ -473,9 +481,123 @@
                         <div class="p-3">
                             <h4 class="font-extrabold text-slate-800 text-xs">Por que dormir bem muda seu humor</h4>
                             <p class="text-[10px] text-slate-500 mt-1">Dicas simples para uma noite de sono melhor mesmo em época de provas.</p>
-                            <button onclick="readArticle('Sono e Humor')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
+                            <button onclick="readArticle('sono')" class="text-indigo-600 font-extrabold text-[10px] mt-2 block">Ler artigo completo →</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- ================= TELA 9: LEITURA DE ARTIGO ================= -->
+            <div id="screen-article" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('explore')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar aos Conteúdos</span>
+                    </button>
+                    <button onclick="navigate('home')" class="text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-2.5 py-2 rounded-xl">
+                        <i class="fa-solid fa-house text-xs"></i>
+                    </button>
+                </div>
+
+                <div id="article-banner" class="h-32 rounded-3xl flex items-center justify-between p-5 bg-purple-400">
+                    <span class="text-5xl" id="article-emoji">🧘</span>
+                    <span class="bg-white/20 text-white text-[9px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded" id="article-tag">Ansiedade</span>
+                </div>
+
+                <div class="space-y-3">
+                    <h2 class="text-base font-black text-slate-800 leading-snug" id="article-title">Título do artigo</h2>
+                    <div id="article-body" class="text-xs text-slate-600 leading-relaxed space-y-3 font-semibold">
+                        <!-- preenchido via JS -->
+                    </div>
+                </div>
+
+                <button id="article-complete-btn" onclick="completeArticle()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3.5 rounded-2xl text-xs transition-all-300 flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Marcar como Lido &amp; Receber +15 pts</span>
+                </button>
+            </div>
+
+            <!-- ================= TELA 10: MENU DE JOGOS ================= -->
+            <div id="screen-games" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="navigate('home')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Voltar ao Início</span>
+                    </button>
+                    <h2 class="text-xs font-black text-indigo-950 uppercase tracking-widest">Jogos</h2>
+                    <span class="text-xl">🎮</span>
+                </div>
+
+                <div class="bg-orange-50/60 rounded-3xl p-4 border border-orange-100/30 flex items-center space-x-4">
+                    <span class="text-4xl">🎯</span>
+                    <div>
+                        <h3 class="font-black text-orange-950 text-xs">Cenários da Vida Real</h3>
+                        <p class="text-[10px] text-slate-500 mt-1">Você vai viver uma situação, escolher como agir e descobrir o que cada escolha causa. Não existe escolha "errada" — existe aprender.</p>
+                    </div>
+                </div>
+
+                <div id="games-list" class="space-y-3">
+                    <!-- preenchido via JS -->
+                </div>
+            </div>
+
+            <!-- ================= TELA 11: JOGO ATIVO (CENÁRIO) ================= -->
+            <div id="screen-game-play" class="hidden space-y-4 py-3">
+                <div class="flex justify-between items-center">
+                    <button onclick="exitGame()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-xs px-3.5 py-2 rounded-xl flex items-center space-x-2 transition-all-300">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Sair do Jogo</span>
+                    </button>
+                    <span class="text-[10px] font-black text-slate-400" id="game-progress">Cena 1 de 3</span>
+                    <button onclick="navigate('home')" class="text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-2.5 py-2 rounded-xl">
+                        <i class="fa-solid fa-house text-xs"></i>
+                    </button>
+                </div>
+
+                <div id="game-banner" class="h-24 rounded-3xl flex items-center justify-between p-5 bg-orange-400">
+                    <span class="text-4xl" id="game-emoji">🎮</span>
+                    <span class="bg-white/20 text-white text-[9px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded" id="game-tag">Jogo</span>
+                </div>
+
+                <!-- Cena: situação + opções -->
+                <div id="game-scene-view" class="space-y-3">
+                    <div class="bg-white rounded-3xl p-4 border border-slate-100 shadow-sm">
+                        <p class="text-[10px] font-black text-orange-500 uppercase tracking-wider mb-1.5" id="game-scene-label">A situação</p>
+                        <p class="text-xs text-slate-700 font-bold leading-relaxed" id="game-scene-text">Texto da cena aqui.</p>
+                    </div>
+
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider pl-1">O que você faz?</p>
+                    <div id="game-options" class="space-y-2.5">
+                        <!-- preenchido via JS -->
+                    </div>
+                </div>
+
+                <!-- Feedback da escolha -->
+                <div id="game-feedback-view" class="hidden space-y-3">
+                    <div id="game-feedback-card" class="rounded-3xl p-4 border space-y-2">
+                        <p class="text-[10px] font-black uppercase tracking-wider" id="game-feedback-label">O que aconteceu</p>
+                        <p class="text-xs text-slate-700 font-bold leading-relaxed" id="game-feedback-text">Texto do feedback aqui.</p>
+                    </div>
+                    <button onclick="nextGameScene()" id="game-next-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3.5 rounded-2xl text-xs transition-all-300 flex items-center justify-center space-x-2">
+                        <span id="game-next-btn-text">Continuar</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Resumo final -->
+                <div id="game-summary-view" class="hidden space-y-4">
+                    <div class="bg-gradient-to-b from-orange-50 to-indigo-50 rounded-3xl p-5 text-center space-y-2 border border-orange-100">
+                        <span class="text-4xl">🏁</span>
+                        <h3 class="font-black text-slate-800 text-sm">Jogo concluído!</h3>
+                        <p class="text-[10px] text-slate-500" id="game-summary-subtitle">Veja o que você aprendeu nessa jornada.</p>
+                    </div>
+                    <div id="game-summary-list" class="space-y-2.5">
+                        <!-- preenchido via JS -->
+                    </div>
+                    <button onclick="finishGame()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-3.5 rounded-2xl text-xs transition-all-300 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-star"></i>
+                        <span id="game-finish-btn-text">Concluir & Receber pontos</span>
+                    </button>
                 </div>
             </div>
 
@@ -916,7 +1038,7 @@
         window.navigate = function(screenName) {
             state.currentScreen = screenName;
 
-            const screens = ['welcome', 'home', 'tests', 'school', 'explore', 'agenda', 'profile', 'history'];
+            const screens = ['welcome', 'home', 'tests', 'school', 'explore', 'agenda', 'profile', 'history', 'article', 'games', 'game-play'];
             screens.forEach(s => {
                 const el = document.getElementById(`screen-${s}`);
                 if (el) el.classList.add('hidden');
@@ -936,6 +1058,10 @@
 
             if (screenName === 'profile') {
                 loadProfileStats();
+            }
+
+            if (screenName === 'games') {
+                renderGamesList();
             }
 
             document.getElementById('app-content').scrollTo({ top: 0, behavior: 'instant' });
@@ -1364,9 +1490,418 @@
             triggerToast('💡', 'Tema sugerido anonimamente! +10 pontos.');
         }
 
-        // ============ EXPLORAR CONTEÚDOS ============
-        window.readArticle = function(title) {
-            triggerToast('📖', `Abrindo: "${title}"...`);
+        // ============ EXPLORAR CONTEÚDOS / LEITURA DE ARTIGOS ============
+        const ARTICLES = {
+            acalmar: {
+                emoji: '🧘',
+                tag: 'Ansiedade',
+                bannerColor: 'bg-purple-400',
+                title: 'Maneiras simples de acalmar a mente',
+                body: [
+                    'Sentir ansiedade antes de uma prova, apresentação ou até numa conversa difícil é mais comum do que parece. O corpo reage como se houvesse um perigo real, mesmo quando o "perigo" é só um trabalho escolar. A boa notícia é que existem formas simples e discretas de acalmar essa reação, mesmo no meio da aula.',
+                    '<strong>1. Respiração 4-7-8.</strong> Inspire contando até 4, segure o ar contando até 7, e solte devagar contando até 8. Repita 3 vezes. Esse padrão ativa o sistema nervoso que desacelera o coração.',
+                    '<strong>2. Ancoragem nos 5 sentidos.</strong> Nomeie mentalmente: 5 coisas que você vê, 4 que pode tocar, 3 que ouve, 2 que cheira, 1 que sente no gosto. Isso tira o foco do pensamento ansioso e traz a mente de volta para o presente.',
+                    '<strong>3. Tensão e relaxamento muscular.</strong> Aperte os punhos com força por 5 segundos e solte. Repita com ombros e mandíbula. A ansiedade costuma acumular tensão física sem você perceber.',
+                    'Nenhuma dessas técnicas faz a ansiedade desaparecer para sempre — e tudo bem, ela é uma emoção normal. O objetivo é ter ferramentas para passar pelo momento difícil sem que ele tome conta de tudo. Se a ansiedade está presente quase todos os dias e atrapalhando sua rotina, vale conversar com um adulto de confiança ou com a orientação da escola.'
+                ]
+            },
+            bullying: {
+                emoji: '🤝',
+                tag: 'Bullying',
+                bannerColor: 'bg-teal-400',
+                title: 'O que fazer ao presenciar o bullying',
+                body: [
+                    'Ver um colega sendo zoado, excluído ou humilhado é uma situação difícil — e muita gente fica paralisada sem saber o que fazer, com medo de virar o próximo alvo. Não existe fórmula perfeita, mas existem atitudes que ajudam de verdade sem te colocar em risco.',
+                    '<strong>1. Não dê plateia.</strong> Quem pratica bullying geralmente busca reação e público. Se você não rir, não compartilhar e se afastar do grupo que está fazendo isso, já reduz o "combustível" da situação.',
+                    '<strong>2. Apoie em particular.</strong> Depois, procure a pessoa que sofreu o bullying e diga algo simples como "vi o que aconteceu, isso não foi legal, tô aqui". Esse gesto pequeno tem um impacto enorme em quem se sentiu sozinho.',
+                    '<strong>3. Avise um adulto de confiança.</strong> Contar para um professor, coordenador ou orientador não é "dedurar" — é pedir ajuda para alguém que tem ferramentas para resolver o que você sozinho não consegue. Você pode fazer isso de forma anônima, se preferir.',
+                    '<strong>4. Cuide de você também.</strong> Se presenciar essas situações está te afetando, ou se você mesmo já foi alvo, isso merece atenção e apoio — não é "frescura". Use o botão SOS deste app sempre que precisar conversar com alguém.'
+                ]
+            },
+            sono: {
+                emoji: '🌙',
+                tag: 'Autocuidado',
+                bannerColor: 'bg-amber-400',
+                title: 'Por que dormir bem muda seu humor',
+                body: [
+                    'Em época de provas é comum cortar o sono para estudar mais — mas isso costuma ter o efeito contrário do esperado. O cérebro usa o sono para organizar e fixar o que foi aprendido durante o dia. Dormir mal não economiza tempo: prejudica a memória, a concentração e o humor no dia seguinte.',
+                    '<strong>O que a falta de sono faz com você:</strong> deixa mais irritado, mais ansioso, com mais dificuldade de prestar atenção e, paradoxalmente, pior em reter o conteúdo estudado até tarde da noite.',
+                    '<strong>1. Tenha um horário-alvo.</strong> Dormir e acordar em horários parecidos todos os dias (inclusive fim de semana) ajuda o corpo a regular melhor o sono.',
+                    '<strong>2. Reduza telas antes de dormir.</strong> A luz do celular avisa o cérebro que ainda é dia. Tente parar de usar telas 30 minutos antes de deitar.',
+                    '<strong>3. Evite estudar na cama.</strong> O cérebro associa o lugar à atividade. Se você estuda, mexe no celular e dorme no mesmo lugar, fica mais difícil ele entender quando é hora de relaxar de verdade.',
+                    'Dormir bem não é luxo nem preguiça — é parte do processo de aprender e de cuidar da sua saúde emocional. Pequenos ajustes na rotina de sono costumam ter mais impacto no desempenho escolar do que mais uma hora acordado estudando.'
+                ]
+            }
+        };
+
+        let currentArticleId = null;
+        const READ_ARTICLES_KEY = 'mente_conexao_read_articles';
+
+        function getReadArticles() {
+            try {
+                return JSON.parse(localStorage.getItem(READ_ARTICLES_KEY) || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        window.readArticle = function(articleId) {
+            const article = ARTICLES[articleId];
+            if (!article) return;
+
+            currentArticleId = articleId;
+
+            const banner = document.getElementById('article-banner');
+            banner.className = `h-32 rounded-3xl flex items-center justify-between p-5 ${article.bannerColor}`;
+            document.getElementById('article-emoji').innerText = article.emoji;
+            document.getElementById('article-tag').innerText = article.tag;
+            document.getElementById('article-title').innerText = article.title;
+
+            const body = document.getElementById('article-body');
+            body.innerHTML = article.body.map(p => `<p>${p}</p>`).join('');
+
+            const btn = document.getElementById('article-complete-btn');
+            const alreadyRead = getReadArticles().includes(articleId);
+            if (alreadyRead) {
+                btn.innerHTML = '<i class="fa-solid fa-check-double"></i><span>Você já leu este artigo ✓</span>';
+                btn.disabled = true;
+                btn.classList.add('opacity-60', 'cursor-default');
+                btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-check"></i><span>Marcar como Lido &amp; Receber +15 pts</span>';
+                btn.disabled = false;
+                btn.classList.remove('opacity-60', 'cursor-default');
+                btn.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+            }
+
+            navigate('article');
+        }
+
+        window.completeArticle = function() {
+            if (!currentArticleId) return;
+
+            const read = getReadArticles();
+            if (read.includes(currentArticleId)) {
+                triggerToast('✅', 'Você já recebeu os pontos por este artigo.');
+                return;
+            }
+
+            read.push(currentArticleId);
+            localStorage.setItem(READ_ARTICLES_KEY, JSON.stringify(read));
+
+            state.user.score += 15;
+            updateAllInterfaceValues();
+            saveUserData();
+
+            const btn = document.getElementById('article-complete-btn');
+            btn.innerHTML = '<i class="fa-solid fa-check-double"></i><span>Concluído! +15 pontos</span>';
+            btn.disabled = true;
+            btn.classList.add('opacity-60', 'cursor-default');
+            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+
+            triggerToast('📖', 'Leitura concluída! +15 pontos.');
+        }
+
+        // ============ JOGOS INTERATIVOS (CENÁRIOS DE ESCOLHA) ============
+        // Estrutura de cada jogo:
+        // scenes: array de cenas. Cada cena tem texto + opções.
+        // Cada opção tem: text (o que o jogador escolhe), feedback (o que acontece),
+        // tone ('good' | 'neutral' | 'risky') usado só para cor do card de feedback,
+        // e learning (frase curta que entra no resumo final).
+        const GAMES = {
+            ansiedade: {
+                emoji: '🧘',
+                tag: 'Ansiedade',
+                bannerColor: 'bg-purple-400',
+                title: 'A Prova de Amanhã',
+                description: 'Você está estudando para uma prova importante e a ansiedade está tomando conta. Como você vai lidar com isso?',
+                reward: 25,
+                scenes: [
+                    {
+                        label: 'A situação',
+                        text: 'Faltam 2 dias para a prova mais importante do bimestre. Você está revisando o conteúdo quando percebe que o coração está acelerado, as mãos estão suando e um pensamento não para de voltar: "e se eu for mal?"',
+                        options: [
+                            { text: 'Parar tudo e continuar estudando sem parar, mesmo agitado(a)', tone: 'risky', feedback: 'Estudar sem pausa enquanto o corpo está em alerta máximo costuma piorar a ansiedade e prejudicar a memorização. O cérebro precisa de um momento de regulação antes de conseguir focar de novo.', learning: 'Estudar "no automático" durante um pico de ansiedade raramente funciona — o corpo precisa se acalmar primeiro.' },
+                            { text: 'Fazer uma pausa de 5 minutos para respirar fundo antes de continuar', tone: 'good', feedback: 'Boa escolha. Uma pausa curta e consciente ajuda o sistema nervoso a sair do estado de alerta. Você volta a estudar com mais clareza, não menos tempo de fato aproveitado.', learning: 'Pausas curtas e conscientes recuperam o foco mais rápido do que insistir sem parar.' },
+                            { text: 'Desistir de estudar e assistir vídeos para "esquecer" a ansiedade', tone: 'neutral', feedback: 'Distrair-se completamente pode aliviar por alguns minutos, mas não resolve a ansiedade nem ajuda na prova. O problema volta — geralmente mais forte — quando você tenta retomar os estudos.', learning: 'Fugir completamente da tarefa não resolve a ansiedade, só adia o confronto com ela.' }
+                        ]
+                    },
+                    {
+                        label: 'Mais tarde, à noite',
+                        text: 'Já são 23h. Você ainda está acordado(a), repassando mentalmente tudo que pode dar errado na prova. Amanhã o despertador toca às 6h.',
+                        options: [
+                            { text: 'Continuar revisando o conteúdo até dormir de exaustão', tone: 'risky', feedback: 'Dormir pouco prejudica exatamente a memória que você está tentando reforçar. O cérebro consolida o aprendizado durante o sono — sem ele, parte do estudo desse dia se perde.', learning: 'Sacrificar o sono pela última revisão costuma prejudicar mais do que ajudar no dia da prova.' },
+                            { text: 'Fechar os materiais e fazer algo relaxante por 15 minutos antes de dormir', tone: 'good', feedback: 'Excelente. Dar um sinal claro ao corpo de que "o estudo acabou por hoje" ajuda a desligar o alerta mental e ter uma noite de sono melhor — fundamental para o desempenho do dia seguinte.', learning: 'Encerrar os estudos com uma rotina calma prepara o corpo para dormir melhor e render mais no dia seguinte.' }
+                        ]
+                    },
+                    {
+                        label: 'No dia da prova',
+                        text: 'Você está na fila para entrar na sala. O coração dispara de novo. Uma colega do lado pergunta baixinho: "Você também tá nervoso(a)?"',
+                        options: [
+                            { text: 'Responder "também" e fazer juntos um exercício rápido de respiração', tone: 'good', feedback: 'Reconhecer a ansiedade em voz alta — sem se julgar por isso — já reduz parte da tensão. E respirar fundo antes de uma prova ativa o sistema que desacelera o coração, ajudando a pensar com mais clareza.', learning: 'Nomear a ansiedade em vez de escondê-la, e usar a respiração antes da prova, ajuda a entrar mais calmo.' },
+                            { text: 'Fingir que está tudo bem e ficar em silêncio, sozinho(a) com o nervosismo', tone: 'neutral', feedback: 'Esconder o que sente não faz a ansiedade desaparecer — só tira a chance de um apoio mútuo simples, que poderia ter ajudado os dois a entrar mais tranquilos.', learning: 'Você não precisa enfrentar a ansiedade sozinho — dividir o que sente costuma aliviar, não atrapalhar.' }
+                        ]
+                    }
+                ]
+            },
+            bullying: {
+                emoji: '🤝',
+                tag: 'Bullying',
+                bannerColor: 'bg-teal-400',
+                title: 'O Grupo do Intervalo',
+                description: 'No intervalo, você percebe que um colega está sendo alvo de piadas constantes de um grupo. O que você faz?',
+                reward: 25,
+                scenes: [
+                    {
+                        label: 'A situação',
+                        text: 'Durante o intervalo, você vê um grupo cercando um colega, repetindo um apelido que claramente o incomoda. Ele está tentando rir junto, mas parece sem graça e encolhido.',
+                        options: [
+                            { text: 'Rir também, para não destoar do grupo', tone: 'risky', feedback: 'Rir junto, mesmo sem querer, funciona como incentivo para quem está praticando o bullying — ele entende que tem plateia e apoio. Isso tende a fazer a situação se repetir e piorar.', learning: 'Rir "para não destoar" também é uma forma de dar combustível para o bullying continuar.' },
+                            { text: 'Não rir e se afastar discretamente do grupo', tone: 'neutral', feedback: 'Não participar já é melhor do que incentivar. Mas se afastar em silêncio não muda a situação para quem está sendo alvo — ele continua sozinho ali.', learning: 'Não participar é importante, mas sozinho nem sempre é suficiente para mudar a situação.' },
+                            { text: 'Mudar de assunto na hora, puxando o colega para outra conversa', tone: 'good', feedback: 'Boa estratégia. Interromper o clima com naturalidade, sem confronto direto, tira o "palco" da situação e ainda mostra apoio prático ao colega, sem expor ninguém.', learning: 'Mudar o foco da situação com naturalidade pode interromper o bullying sem gerar confronto.' }
+                        ]
+                    },
+                    {
+                        label: 'Depois, no corredor',
+                        text: 'Você encontra o colega sozinho, ainda visivelmente incomodado com o que aconteceu mais cedo.',
+                        options: [
+                            { text: 'Fingir que não viu nada e seguir andando', tone: 'risky', feedback: 'Para quem já se sentiu exposto, o silêncio de quem presenciou pode parecer mais uma confirmação de que está sozinho na situação.', learning: 'Ignorar completamente quem sofreu costuma reforçar a sensação de isolamento.' },
+                            { text: 'Dizer algo simples como "vi o que rolou, isso não foi legal, tô aqui se precisar"', tone: 'good', feedback: 'Esse tipo de gesto, mesmo curto, costuma ter um impacto grande: mostra que ele não está sozinho e que alguém percebeu o que aconteceu — sem precisar de grandes discursos.', learning: 'Um gesto pequeno de apoio individual pode pesar muito mais do que parece.' }
+                        ]
+                    },
+                    {
+                        label: 'Nos dias seguintes',
+                        text: 'Você percebe que o mesmo grupo continua repetindo o apelido com o colega quase todos os dias, mesmo depois da sua conversa com ele.',
+                        options: [
+                            { text: 'Decidir que "não é da sua conta" e deixar como está', tone: 'risky', feedback: 'Bullying repetido tende a se agravar quando ninguém com informação sobre o caso aciona um adulto responsável. Reconhecer os limites do que você pode resolver sozinho não é falha — é necessário.', learning: 'Existem situações que pedem ajuda de um adulto — pedir apoio não é exagero, é responsabilidade.' },
+                            { text: 'Contar para um professor ou orientador, mesmo sem o colega saber', tone: 'good', feedback: 'Avisar um adulto de confiança coloca a situação nas mãos de quem tem ferramentas reais para agir — conversas com responsáveis, acompanhamento, mediação. Isso não é "dedurar", é proteger.', learning: 'Procurar um adulto de confiança é a atitude mais eficaz diante de um bullying que se repete.' }
+                        ]
+                    }
+                ]
+            },
+            sono: {
+                emoji: '🌙',
+                tag: 'Autocuidado',
+                bannerColor: 'bg-amber-400',
+                title: 'A Semana de Provas',
+                description: 'É semana de provas e o sono virou a primeira coisa sacrificada na sua rotina. Vamos ver até onde isso vai.',
+                reward: 25,
+                scenes: [
+                    {
+                        label: 'Domingo à noite',
+                        text: 'Você organiza a semana de provas e percebe que, para "dar conta de tudo", vai precisar dormir bem menos do que o normal quase todos os dias.',
+                        options: [
+                            { text: 'Decidir reduzir o sono para 4-5h por noite durante toda a semana', tone: 'risky', feedback: 'Reduzir o sono drasticamente prejudica justamente a memória que você quer reforçar com o estudo extra. O ganho de tempo acordado costuma ser anulado pela perda de rendimento.', learning: 'Cortar o sono pela metade troca tempo de estudo por capacidade de aprender — não é um bom negócio.' },
+                            { text: 'Reorganizar os horários de estudo para manter pelo menos 7h de sono', tone: 'good', feedback: 'Ótima decisão. Mesmo com menos horas "disponíveis" no dia, estudar com o cérebro descansado rende mais por hora do que estudar exausto por mais tempo.', learning: 'Preservar o sono, mesmo em época de provas, aumenta o aproveitamento do tempo de estudo.' }
+                        ]
+                    },
+                    {
+                        label: 'Quarta-feira, 23h',
+                        text: 'Faltam 2 provas para a sexta-feira. Você está cansado(a), mas pega o celular "só para dar uma olhada" antes de continuar estudando.',
+                        options: [
+                            { text: 'Ficar 1h no celular e depois tentar estudar mais um pouco', tone: 'risky', feedback: 'A luz da tela atrasa a produção do hormônio que prepara o corpo para dormir, e ainda reduz o tempo real de sono. Resultado comum: menos horas dormidas e estudo de pior qualidade depois.', learning: 'Usar o celular antes de dormir costuma roubar tempo de sono sem perceber — e atrapalha o estudo no dia seguinte.' },
+                            { text: 'Guardar o celular e encerrar os estudos para dormir no horário planejado', tone: 'good', feedback: 'Seguir o plano e proteger o horário de dormir mantém a consistência que o cérebro precisa para consolidar o que foi estudado nos dias anteriores.', learning: 'Manter um horário de dormir consistente, mesmo sob pressão, ajuda mais do que tentar "espremer" mais uma hora acordado.' }
+                        ]
+                    },
+                    {
+                        label: 'Sexta-feira de manhã',
+                        text: 'Última prova da semana. Você acorda e percebe como se sente — depende de como foram as noites anteriores.',
+                        options: [
+                            { text: 'Refletir: "esse modelo de virar a noite não funcionou, preciso mudar"', tone: 'good', feedback: 'Perceber o próprio padrão é o primeiro passo para mudar de verdade. Da próxima vez, você pode planejar a rotina de provas já considerando o sono como parte do estudo, não como sacrifício dele.', learning: 'Notar o que não funcionou é o que permite ajustar a estratégia para a próxima prova.' },
+                            { text: 'Pensar: "da próxima vez vou estudar ainda mais tarde para compensar"', tone: 'risky', feedback: 'Repetir o mesmo padrão esperando um resultado diferente tende a manter o ciclo de cansaço e baixo rendimento. Vale repensar a estratégia, não só fazer "mais do mesmo".', learning: 'Repetir uma estratégia que já não funcionou raramente muda o resultado na próxima vez.' }
+                        ]
+                    }
+                ]
+            },
+            violencia_psicologica: {
+                emoji: '🛡️',
+                tag: 'Violência Psicológica',
+                bannerColor: 'bg-rose-400',
+                title: 'Os Comentários que Não Param',
+                description: 'Um colega de turma vem fazendo comentários que diminuem você quase todos os dias, sempre disfarçados de "brincadeira". Vamos entender essa situação.',
+                reward: 30,
+                scenes: [
+                    {
+                        label: 'A situação',
+                        text: 'Há semanas, um colega faz comentários do tipo "você não presta pra nada mesmo", "ninguém aguenta você", sempre dizendo "é brincadeira" quando alguém estranha. Você percebe que está evitando falar em grupo por medo do próximo comentário.',
+                        options: [
+                            { text: 'Achar que está "exagerando" e que deveria simplesmente ignorar', tone: 'risky', feedback: 'Comentários repetidos que diminuem alguém, mesmo disfarçados de brincadeira, são uma forma de violência psicológica — não é exagero notar o impacto que isso causa. Minimizar o próprio incômodo tende a abrir espaço para que continue.', learning: 'Comentários que machucam, mesmo repetidos como "brincadeira", não deixam de ser violência psicológica — perceber isso não é exagero.' },
+                            { text: 'Reconhecer que esses comentários estão te afetando de verdade', tone: 'good', feedback: 'Esse é um passo importante. Violência psicológica costuma ser difícil de nomear porque não deixa marca visível — mas o efeito no bem-estar é real. Identificar o padrão é o que permite agir sobre ele.', learning: 'Reconhecer o efeito real de comentários repetidos é o primeiro passo para conseguir lidar com a situação.' }
+                        ]
+                    },
+                    {
+                        label: 'Na próxima vez que acontecer',
+                        text: 'O colega faz mais um comentário do tipo na frente de outras pessoas. Você sente o estômago revirar, mas todo mundo parece achar normal.',
+                        options: [
+                            { text: 'Rir junto e fingir que não incomoda, para a situação "passar logo"', tone: 'risky', feedback: 'Disfarçar o incômodo pode parecer a saída mais rápida na hora, mas costuma sinalizar para quem está fazendo o comentário que pode continuar — e não resolve o que você está sentindo por dentro.', learning: 'Fingir que não incomoda não faz o impacto desaparecer, só o esconde por fora.' },
+                            { text: 'Dizer com calma, na hora: "isso que você falou me machuca, prefiro que pare"', tone: 'good', feedback: 'Nomear o limite com clareza e sem agressividade é uma das formas mais diretas de interromper o padrão. Nem sempre resolve sozinho, mas é um passo firme — e você não precisa fazer isso sorrindo ou se desculpando.', learning: 'Colocar um limite claro, com calma, é um direito seu — não precisa ser agressivo para ser firme.' },
+                            { text: 'Revidar com um comentário igualmente pesado sobre a outra pessoa', tone: 'neutral', feedback: 'É compreensível querer revidar depois de se sentir atacado repetidamente. Mas isso costuma transformar a situação em uma troca de ataques, sem resolver o padrão — e pode escalar o conflito em vez de interrompê-lo.', learning: 'Revidar no mesmo tom costuma alimentar o conflito em vez de encerrá-lo.' }
+                        ]
+                    },
+                    {
+                        label: 'Depois de tentar colocar limites e a situação continuar',
+                        text: 'Mesmo depois de você pedir para parar, os comentários continuam acontecendo, só que agora também por mensagem, fora da escola.',
+                        options: [
+                            { text: 'Guardar só para você, achando que contar "vai criar mais problema"', tone: 'risky', feedback: 'Violência psicológica que persiste mesmo depois de um limite claro raramente para sozinha — geralmente precisa da intervenção de um adulto responsável. Guardar para si tende a prolongar o desgaste, não evitá-lo.', learning: 'Quando o problema persiste mesmo após um limite claro, buscar ajuda de um adulto deixa de ser opcional.' },
+                            { text: 'Guardar prints das mensagens e contar para um adulto de confiança (família, escola, orientação)', tone: 'good', feedback: 'Excelente atitude. Ter registro concreto ajuda o adulto a entender a dimensão real do que está acontecendo, e contar para alguém de confiança coloca a situação nas mãos de quem pode agir de fato — você não precisa resolver isso sozinho(a).', learning: 'Guardar evidências e buscar apoio de um adulto de confiança são passos concretos para interromper a violência psicológica.' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentGameId = null;
+        let currentSceneIndex = 0;
+        let gameChoices = []; // guarda { sceneLabel, optionText, tone, learning } de cada escolha
+
+        function renderGamesList() {
+            const list = document.getElementById('games-list');
+            const colors = {
+                ansiedade: 'border-purple-100 hover:border-purple-300',
+                bullying: 'border-teal-100 hover:border-teal-300',
+                sono: 'border-amber-100 hover:border-amber-300',
+                violencia_psicologica: 'border-rose-100 hover:border-rose-300'
+            };
+
+            list.innerHTML = Object.keys(GAMES).map(id => {
+                const g = GAMES[id];
+                return `
+                    <button onclick="startGame('${id}')" class="w-full bg-white rounded-2xl p-4 shadow-sm border ${colors[id] || 'border-slate-100'} flex items-center justify-between text-left transition-all-300">
+                        <div class="flex items-center space-x-3.5">
+                            <span class="text-2xl">${g.emoji}</span>
+                            <div>
+                                <h4 class="font-extrabold text-slate-800 text-xs">${g.title}</h4>
+                                <p class="text-[10px] text-slate-400 leading-snug">${g.description}</p>
+                            </div>
+                        </div>
+                        <span class="bg-orange-50 text-orange-600 font-extrabold text-[10px] px-3 py-1.5 rounded-xl flex-shrink-0 ml-2">Jogar</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        window.startGame = function(gameId) {
+            const game = GAMES[gameId];
+            if (!game) return;
+
+            currentGameId = gameId;
+            currentSceneIndex = 0;
+            gameChoices = [];
+
+            const banner = document.getElementById('game-banner');
+            banner.className = `h-24 rounded-3xl flex items-center justify-between p-5 ${game.bannerColor}`;
+            document.getElementById('game-emoji').innerText = game.emoji;
+            document.getElementById('game-tag').innerText = game.tag;
+
+            renderCurrentScene();
+            navigate('game-play');
+        }
+
+        function renderCurrentScene() {
+            const game = GAMES[currentGameId];
+            const scene = game.scenes[currentSceneIndex];
+
+            document.getElementById('game-progress').innerText = `Cena ${currentSceneIndex + 1} de ${game.scenes.length}`;
+            document.getElementById('game-scene-label').innerText = scene.label;
+            document.getElementById('game-scene-text').innerText = scene.text;
+
+            const optionsContainer = document.getElementById('game-options');
+            optionsContainer.innerHTML = scene.options.map((opt, idx) => `
+                <button onclick="chooseGameOption(${idx})" class="w-full bg-white rounded-2xl p-3.5 border border-slate-100 text-left text-xs font-bold text-slate-700 hover:border-orange-300 hover:bg-orange-50/30 transition-all-300 flex items-center space-x-2.5">
+                    <span class="w-5 h-5 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center text-[10px] font-black flex-shrink-0">${String.fromCharCode(65 + idx)}</span>
+                    <span>${opt.text}</span>
+                </button>
+            `).join('');
+
+            document.getElementById('game-scene-view').classList.remove('hidden');
+            document.getElementById('game-feedback-view').classList.add('hidden');
+            document.getElementById('game-summary-view').classList.add('hidden');
+        }
+
+        const TONE_STYLES = {
+            good: { card: 'bg-emerald-50 border-emerald-200', label: 'text-emerald-700', labelText: '✅ Boa escolha' },
+            neutral: { card: 'bg-amber-50 border-amber-200', label: 'text-amber-700', labelText: '🤔 Vale repensar' },
+            risky: { card: 'bg-rose-50 border-rose-200', label: 'text-rose-700', labelText: '⚠️ Atenção' }
+        };
+
+        window.chooseGameOption = function(optionIndex) {
+            const game = GAMES[currentGameId];
+            const scene = game.scenes[currentSceneIndex];
+            const option = scene.options[optionIndex];
+
+            gameChoices.push({
+                sceneLabel: scene.label,
+                optionText: option.text,
+                tone: option.tone,
+                learning: option.learning
+            });
+
+            const style = TONE_STYLES[option.tone] || TONE_STYLES.neutral;
+            const card = document.getElementById('game-feedback-card');
+            card.className = `rounded-3xl p-4 border space-y-2 ${style.card}`;
+            document.getElementById('game-feedback-label').className = `text-[10px] font-black uppercase tracking-wider ${style.label}`;
+            document.getElementById('game-feedback-label').innerText = style.labelText;
+            document.getElementById('game-feedback-text').innerText = option.feedback;
+
+            const isLastScene = currentSceneIndex === game.scenes.length - 1;
+            document.getElementById('game-next-btn-text').innerText = isLastScene ? 'Ver resumo final' : 'Continuar';
+
+            document.getElementById('game-scene-view').classList.add('hidden');
+            document.getElementById('game-feedback-view').classList.remove('hidden');
+        }
+
+        window.nextGameScene = function() {
+            const game = GAMES[currentGameId];
+
+            if (currentSceneIndex < game.scenes.length - 1) {
+                currentSceneIndex++;
+                renderCurrentScene();
+            } else {
+                showGameSummary();
+            }
+        }
+
+        function showGameSummary() {
+            const game = GAMES[currentGameId];
+
+            document.getElementById('game-scene-view').classList.add('hidden');
+            document.getElementById('game-feedback-view').classList.add('hidden');
+            document.getElementById('game-summary-view').classList.remove('hidden');
+
+            const goodCount = gameChoices.filter(c => c.tone === 'good').length;
+            document.getElementById('game-summary-subtitle').innerText =
+                `Você fez ${goodCount} de ${gameChoices.length} escolhas alinhadas com o bem-estar. Veja os aprendizados:`;
+
+            const list = document.getElementById('game-summary-list');
+            list.innerHTML = gameChoices.map(c => {
+                const style = TONE_STYLES[c.tone] || TONE_STYLES.neutral;
+                return `
+                    <div class="rounded-2xl p-3.5 border ${style.card} flex items-start space-x-2.5">
+                        <span class="text-base flex-shrink-0">${c.tone === 'good' ? '✅' : c.tone === 'risky' ? '⚠️' : '🤔'}</span>
+                        <div>
+                            <p class="text-[9px] font-black uppercase tracking-wider ${style.label}">${c.sceneLabel}</p>
+                            <p class="text-[11px] text-slate-700 font-semibold leading-snug">${c.learning}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('game-finish-btn-text').innerText = `Concluir & Receber +${game.reward} pontos`;
+        }
+
+        window.finishGame = function() {
+            const game = GAMES[currentGameId];
+            state.user.score += game.reward;
+            updateAllInterfaceValues();
+            saveUserData();
+            triggerToast('🎮', `Jogo concluído! +${game.reward} pontos.`);
+            currentGameId = null;
+            navigate('games');
+        }
+
+        window.exitGame = function() {
+            currentGameId = null;
+            navigate('games');
         }
 
         // ============ AGENDA / RSVP ============
